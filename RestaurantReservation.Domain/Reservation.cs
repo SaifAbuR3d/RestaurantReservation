@@ -16,7 +16,7 @@ namespace RestaurantReservation.Domain
         public int PartySize { get; set; }
         public Customer Customer { get; set; }
         public Restaurant Restaurant { get; set; }
-        public Table Table { get; set; };
+        public Table Table { get; set; }
         public List<Order> Orders { get; set; }
 
     }
