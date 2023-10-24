@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using RestaurantReservation.Domain;
 
 namespace RestaurantReservation.Db
@@ -22,7 +22,9 @@ namespace RestaurantReservation.Db
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(_connectionString);
+            optionsBuilder.UseSqlServer(_connectionString)
+                .LogTo(Console.WriteLine, new[] { DbLoggerCategory.Database.Command.Name }, LogLevel.Information)
+                .EnableSensitiveDataLogging();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -92,12 +94,12 @@ namespace RestaurantReservation.Db
         private void SeedOrders(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Order>().HasData(
-                new Order { OrderID = 1, ReservationID = 1, EmployeeID = 5, OrderDate = DateTime.Now, TotalAmount = 36.97m  },
+                new Order { OrderID = 1, ReservationID = 1, EmployeeID = 5, OrderDate = DateTime.Now, TotalAmount = 36.97m },
                 new Order { OrderID = 2, ReservationID = 1, EmployeeID = 5, OrderDate = DateTime.Now, TotalAmount = 39.93m },
                 new Order { OrderID = 3, ReservationID = 2, EmployeeID = 4, OrderDate = DateTime.Now, TotalAmount = 37.98m },
-                new Order { OrderID = 4, ReservationID = 2, EmployeeID = 4, OrderDate = DateTime.Now, TotalAmount = 17.99m  },
-                new Order { OrderID = 5, ReservationID = 3, EmployeeID = 5, OrderDate = DateTime.Now, TotalAmount = 12.99m  }, 
-                new Order { OrderID = 6, ReservationID = 4, EmployeeID = 4, OrderDate = DateTime.Now, TotalAmount = 35.98m }, 
+                new Order { OrderID = 4, ReservationID = 2, EmployeeID = 4, OrderDate = DateTime.Now, TotalAmount = 17.99m },
+                new Order { OrderID = 5, ReservationID = 3, EmployeeID = 5, OrderDate = DateTime.Now, TotalAmount = 12.99m },
+                new Order { OrderID = 6, ReservationID = 4, EmployeeID = 4, OrderDate = DateTime.Now, TotalAmount = 35.98m },
                 new Order { OrderID = 7, ReservationID = 5, EmployeeID = 5, OrderDate = DateTime.Now, TotalAmount = 8.99m },
                 new Order { OrderID = 8, ReservationID = 5, EmployeeID = 5, OrderDate = DateTime.Now, TotalAmount = 8.99m }
             );
