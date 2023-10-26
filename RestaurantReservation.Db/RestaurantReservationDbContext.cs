@@ -20,6 +20,7 @@ namespace RestaurantReservation.Db
         {
             _connectionString = connectionString;
         }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(_connectionString)
@@ -70,12 +71,12 @@ namespace RestaurantReservation.Db
         private void SeedEmployees(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Employee>().HasData(
-                new Employee { EmployeeId = 1, RestaurantId = 1, FirstName = "Alice", LastName = "Johnson", position = "Manager" },
-                new Employee { EmployeeId = 2, RestaurantId = 2, FirstName = "Bob", LastName = "Smith", position = "Manager" },
-                new Employee { EmployeeId = 3, RestaurantId = 1, FirstName = "Charlie", LastName = "Williams", position = "Waiter" },
-                new Employee { EmployeeId = 4, RestaurantId = 2, FirstName = "David", LastName = "Brown", position = "Chef" },
-                new Employee { EmployeeId = 5, RestaurantId = 1, FirstName = "Eva", LastName = "Davis", position = "Chef" },
-                new Employee { EmployeeId = 6, RestaurantId = 2, FirstName = "John", LastName = "Davis", position = "Waiter" }
+                new Employee { EmployeeId = 1, RestaurantId = 1, FirstName = "Alice", LastName = "Johnson", Position = "Manager" },
+                new Employee { EmployeeId = 2, RestaurantId = 2, FirstName = "Bob", LastName = "Smith", Position = "Manager" },
+                new Employee { EmployeeId = 3, RestaurantId = 1, FirstName = "Charlie", LastName = "Williams", Position = "Waiter" },
+                new Employee { EmployeeId = 4, RestaurantId = 2, FirstName = "David", LastName = "Brown", Position = "Chef" },
+                new Employee { EmployeeId = 5, RestaurantId = 1, FirstName = "Eva", LastName = "Davis", Position = "Chef" },
+                new Employee { EmployeeId = 6, RestaurantId = 2, FirstName = "John", LastName = "Davis", Position = "Waiter" }
 
             );
         }
