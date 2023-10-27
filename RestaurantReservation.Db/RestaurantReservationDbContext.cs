@@ -16,7 +16,7 @@ namespace RestaurantReservation.Db
         public DbSet<Restaurant> Restaurants { get; set; }
         public DbSet<Table> Tables { get; set; }
         public DbSet<ReservationDetails> ReservationDetails { get; set; }
-
+        public DbSet<EmployeeRestaurantDetails> EmployeeRestaurantDetails { get; set; }
 
         public RestaurantReservationDbContext(string connectionString)
         {
@@ -42,6 +42,11 @@ namespace RestaurantReservation.Db
             modelBuilder.Entity<ReservationDetails>()
                         .HasNoKey()
                         .ToView(nameof(ReservationDetails));
+
+            modelBuilder.Entity<EmployeeRestaurantDetails>()
+                        .HasNoKey()
+                        .ToView(nameof(EmployeeRestaurantDetails));
+    
         }
 
         private void ConfigureNoCascadeDelete(ModelBuilder modelBuilder)
