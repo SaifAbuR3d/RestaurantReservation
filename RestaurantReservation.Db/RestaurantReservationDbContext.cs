@@ -32,10 +32,21 @@ namespace RestaurantReservation.Db
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            MapDatabaseFunctions(modelBuilder);
             MapDatabaseViews(modelBuilder);
             ConfigureNoCascadeDelete(modelBuilder);
             SeedData(modelBuilder);
         }
+
+        private void MapDatabaseFunctions(ModelBuilder modelBuilder)
+        {
+            modelBuilder.HasDbFunction(typeof(RestaurantReservationDbContext)
+                        .GetMethod(nameof(CalculateTotalRevenue), new[] { typeof(int) }))
+                        .HasName("CalculateTotalRevenue");
+        }
+
+        public decimal CalculateTotalRevenue(int restaurantId)
+                => throw new NotSupportedException();
 
         public void MapDatabaseViews(ModelBuilder modelBuilder)
         {
@@ -46,7 +57,7 @@ namespace RestaurantReservation.Db
             modelBuilder.Entity<EmployeeRestaurantDetails>()
                         .HasNoKey()
                         .ToView(nameof(EmployeeRestaurantDetails));
-    
+
         }
 
         private void ConfigureNoCascadeDelete(ModelBuilder modelBuilder)

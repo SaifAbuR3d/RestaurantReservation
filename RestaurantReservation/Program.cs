@@ -7,4 +7,16 @@ var configuration = new ConfigurationBuilder()
 
 string connectionString = configuration.GetSection("constr").Value;
 
-var context = new RestaurantReservationDbContext(connectionString);
+using (var context = new RestaurantReservationDbContext(connectionString))
+{
+
+    var query = from r in context.Restaurants
+                where context.CalculateTotalRevenue(r.RestaurantId) > 100
+                select r;
+
+    foreach (var item in query)
+    {
+        Console.WriteLine(item.RestaurantId);
+    }
+
+}
