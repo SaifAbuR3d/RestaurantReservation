@@ -15,6 +15,8 @@ namespace RestaurantReservation.Db
         public DbSet<Reservation> Reservations { get; set; }
         public DbSet<Restaurant> Restaurants { get; set; }
         public DbSet<Table> Tables { get; set; }
+        public DbSet<ReservationDetails> ReservationDetails { get; set; }
+
 
         public RestaurantReservationDbContext(string connectionString)
         {
@@ -30,9 +32,16 @@ namespace RestaurantReservation.Db
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            MapDatabaseViews(modelBuilder);
             ConfigureNoCascadeDelete(modelBuilder);
-
             SeedData(modelBuilder);
+        }
+
+        public void MapDatabaseViews(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<ReservationDetails>()
+                        .HasNoKey()
+                        .ToView(nameof(ReservationDetails));
         }
 
         private void ConfigureNoCascadeDelete(ModelBuilder modelBuilder)
@@ -60,11 +69,11 @@ namespace RestaurantReservation.Db
         private void SeedCustomers(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Customer>().HasData(
-                new Customer { Id = 1, FirstName = "John", LastName = "Doe", Email = "john@example.com", PhoneNumber = "123-456-7890" },
-                new Customer { Id = 2, FirstName = "Jane", LastName = "Smith", Email = "jane@example.com", PhoneNumber = "987-654-3210" },
-                new Customer { Id = 3, FirstName = "Michael", LastName = "Johnson", Email = "michael@example.com", PhoneNumber = "555-555-5555" },
-                new Customer { Id = 4, FirstName = "Emily", LastName = "Williams", Email = "emily@example.com", PhoneNumber = "111-222-3333" },
-                new Customer { Id = 5, FirstName = "William", LastName = "Brown", Email = "william@example.com", PhoneNumber = "444-444-4444" }
+                new Customer { CustomerId = 1, FirstName = "John", LastName = "Doe", Email = "john@example.com", PhoneNumber = "123-456-7890" },
+                new Customer { CustomerId = 2, FirstName = "Jane", LastName = "Smith", Email = "jane@example.com", PhoneNumber = "987-654-3210" },
+                new Customer { CustomerId = 3, FirstName = "Michael", LastName = "Johnson", Email = "michael@example.com", PhoneNumber = "555-555-5555" },
+                new Customer { CustomerId = 4, FirstName = "Emily", LastName = "Williams", Email = "emily@example.com", PhoneNumber = "111-222-3333" },
+                new Customer { CustomerId = 5, FirstName = "William", LastName = "Brown", Email = "william@example.com", PhoneNumber = "444-444-4444" }
             );
         }
 
