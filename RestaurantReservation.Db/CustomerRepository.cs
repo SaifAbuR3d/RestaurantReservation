@@ -1,4 +1,5 @@
-﻿using RestaurantReservation.Domain;
+﻿using Microsoft.EntityFrameworkCore;
+using RestaurantReservation.Domain;
 
 namespace RestaurantReservation.Db
 {
@@ -43,6 +44,12 @@ namespace RestaurantReservation.Db
                 customer.Reservations.Add(reservation);
                 _context.SaveChanges();
             }
+        }
+
+        public List<Customer> FindCustomersWithPartySizeGreaterThan(int partySize)
+        {
+            return _context.Customers
+                .FromSqlRaw("EXEC FindCustomersWithPartySizeGreaterThan {0}", partySize).ToList();
         }
     }
 }
