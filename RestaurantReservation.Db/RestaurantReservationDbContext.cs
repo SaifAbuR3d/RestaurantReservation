@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using RestaurantReservation.Domain.Models;
 
-namespace RestaurantReservation.Db.Repositories;
+namespace RestaurantReservation.Db;
 
 public class RestaurantReservationDbContext : DbContext
 {

@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
-using RestaurantReservation.Db.Repositories;
 
 namespace RestaurantReservation.Db;
 
