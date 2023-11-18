@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
-using RestaurantReservation.Db;
+using RestaurantReservation.Db.Repositories;
 
 var configuration = new ConfigurationBuilder()
   .AddJsonFile("appsettings.json")
