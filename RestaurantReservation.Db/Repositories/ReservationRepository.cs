@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using RestaurantReservation.Domain.Models;
+using RestaurantReservation.Domain.Entities;
 
 namespace RestaurantReservation.Db.Repositories;
 
@@ -31,6 +31,7 @@ public class ReservationsRepository
         return reservation;
     }
 
+    // move to customerRepo
     public List<Reservation> GetReservationsByCustomer(int customerId)
     {
         return _context.Reservations
