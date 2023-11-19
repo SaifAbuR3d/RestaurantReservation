@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using RestaurantReservation.Domain.Models;
+using RestaurantReservation.Domain.Entities;
 
 namespace RestaurantReservation.Db;
 
@@ -120,14 +120,14 @@ public class RestaurantReservationDbContext : DbContext
     private void SeedOrders(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Order>().HasData(
-            new Order { OrderID = 1, ReservationID = 1, EmployeeID = 5, OrderDate = DateTime.Now, TotalAmount = 36.97m },
-            new Order { OrderID = 2, ReservationID = 1, EmployeeID = 5, OrderDate = DateTime.Now, TotalAmount = 39.93m },
-            new Order { OrderID = 3, ReservationID = 2, EmployeeID = 4, OrderDate = DateTime.Now, TotalAmount = 37.98m },
-            new Order { OrderID = 4, ReservationID = 2, EmployeeID = 4, OrderDate = DateTime.Now, TotalAmount = 17.99m },
-            new Order { OrderID = 5, ReservationID = 3, EmployeeID = 5, OrderDate = DateTime.Now, TotalAmount = 12.99m },
-            new Order { OrderID = 6, ReservationID = 4, EmployeeID = 4, OrderDate = DateTime.Now, TotalAmount = 35.98m },
-            new Order { OrderID = 7, ReservationID = 5, EmployeeID = 5, OrderDate = DateTime.Now, TotalAmount = 8.99m },
-            new Order { OrderID = 8, ReservationID = 5, EmployeeID = 5, OrderDate = DateTime.Now, TotalAmount = 8.99m }
+            new Order { OrderID = 1, ReservationID = 1, EmployeeID = 5, OrderDate = DateTime.Parse("1/5/2020"), TotalAmount = 36.97m },
+            new Order { OrderID = 2, ReservationID = 1, EmployeeID = 5, OrderDate = DateTime.Parse("1/9/2020"), TotalAmount = 39.93m },
+            new Order { OrderID = 3, ReservationID = 2, EmployeeID = 4, OrderDate = DateTime.Parse("1/9/2021"), TotalAmount = 37.98m },
+            new Order { OrderID = 4, ReservationID = 2, EmployeeID = 4, OrderDate = DateTime.Parse("1/5/2020"), TotalAmount = 17.99m },
+            new Order { OrderID = 5, ReservationID = 3, EmployeeID = 5, OrderDate = DateTime.Parse("4/9/2020"), TotalAmount = 12.99m },
+            new Order { OrderID = 6, ReservationID = 4, EmployeeID = 4, OrderDate = DateTime.Parse("7/9/2020"), TotalAmount = 35.98m },
+            new Order { OrderID = 7, ReservationID = 5, EmployeeID = 5, OrderDate = DateTime.Parse("1/2/2020"), TotalAmount = 8.99m },
+            new Order { OrderID = 8, ReservationID = 5, EmployeeID = 5, OrderDate = DateTime.Parse("1/5/2020"), TotalAmount = 8.99m }
         );
     }
 
@@ -151,11 +151,11 @@ public class RestaurantReservationDbContext : DbContext
     private void SeedReservations(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Reservation>().HasData(
-            new Reservation { ReservationID = 1, CustomerId = 1, RestaurantID = 1, TableID = 1, ReservationDate = DateTime.Now.AddHours(1), PartySize = 4 },
-            new Reservation { ReservationID = 2, CustomerId = 2, RestaurantID = 2, TableID = 2, ReservationDate = DateTime.Now.AddHours(1), PartySize = 2 },
-            new Reservation { ReservationID = 3, CustomerId = 3, RestaurantID = 1, TableID = 3, ReservationDate = DateTime.Now.AddHours(3), PartySize = 6 },
-            new Reservation { ReservationID = 4, CustomerId = 1, RestaurantID = 2, TableID = 2, ReservationDate = DateTime.Now.AddHours(4), PartySize = 1 },
-            new Reservation { ReservationID = 5, CustomerId = 2, RestaurantID = 1, TableID = 5, ReservationDate = DateTime.Now.AddHours(2), PartySize = 4 }
+            new Reservation { ReservationID = 1, CustomerId = 1, RestaurantID = 1, TableID = 1, ReservationDate = DateTime.Parse("1/9/2020"), PartySize = 4 },
+            new Reservation { ReservationID = 2, CustomerId = 2, RestaurantID = 2, TableID = 2, ReservationDate = DateTime.Parse("1/5/2020"), PartySize = 2 },
+            new Reservation { ReservationID = 3, CustomerId = 3, RestaurantID = 1, TableID = 3, ReservationDate = DateTime.Parse("2/9/2020"), PartySize = 6 },
+            new Reservation { ReservationID = 4, CustomerId = 1, RestaurantID = 2, TableID = 2, ReservationDate = DateTime.Parse("1/7/2020"), PartySize = 1 },
+            new Reservation { ReservationID = 5, CustomerId = 2, RestaurantID = 1, TableID = 5, ReservationDate = DateTime.Parse("4/3/2020"), PartySize = 4 }
         );
     }
 
