@@ -82,7 +82,7 @@
     <Link Source="Employee" Target="Employee.Restaurant" Category="Contains" />
     <Link Source="Employee" Target="Employee.RestaurantId" Category="Contains" />
     <Link Source="Employee" Target="Employee.position" Category="Contains" />
-    <Link Source="Employee" Target="Restaurant" Category="Foreign Key" Annotations="" Bounds="354.95166015625,837.47998046875,221.163757324219,404.436279296875" From="Employee.RestaurantId" IsUnique="False" Label="1:*" LabelBounds="340.878333333333,1002.38,14.0733333333333,15.96" Name="Employee -&gt; Restaurant" To="Restaurant.RestaurantId" />
+    <Link Source="Employee" Target="Restaurant" Category="Foreign Key" Annotations="" Bounds="354.95166015625,837.47998046875,221.163757324219,404.436279296875" From="Employee.RestaurantId" IsUnique="False" Label="1:*" LabelBounds="340.878333333334,1002.38,14.0733333333333,15.96" Name="Employee -&gt; Restaurant" To="Restaurant.RestaurantId" />
     <Link Source="IModel" Target="Customer" Category="Contains" />
     <Link Source="IModel" Target="Employee" Category="Contains" />
     <Link Source="IModel" Target="MenuItem" Category="Contains" />
@@ -98,7 +98,7 @@
     <Link Source="MenuItem" Target="MenuItem.Price" Category="Contains" />
     <Link Source="MenuItem" Target="MenuItem.Restaurant" Category="Contains" />
     <Link Source="MenuItem" Target="MenuItem.RestaurantId" Category="Contains" />
-    <Link Source="MenuItem" Target="Restaurant" Category="Foreign Key" Annotations="" Bounds="308.275695800781,1135.97155761719,267.753540039063,111.896606445313" From="MenuItem.RestaurantId" IsUnique="False" Label="1:*" LabelBounds="306.67365701443,1143.80656720784,14.0733333333333,15.96" Name="MenuItem -&gt; Restaurant" To="Restaurant.RestaurantId" />
+    <Link Source="MenuItem" Target="Restaurant" Category="Foreign Key" Annotations="" Bounds="308.275695800781,1135.97155761719,267.753540039063,111.896606445313" From="MenuItem.RestaurantId" IsUnique="False" Label="1:*" LabelBounds="306.673657014431,1143.80656720784,14.0733333333333,15.96" Name="MenuItem -&gt; Restaurant" To="Restaurant.RestaurantId" />
     <Link Source="Order" Target="Employee" Category="Foreign Key" Annotations="" Bounds="366.736328125,537.679992675781,3.208251953125,36.99365234375" From="Order.EmployeeID" IsUnique="False" Label="1:*" LabelBounds="367.951666666667,552.68,14.0733333333333,15.96" Name="Order -&gt; Employee" To="Employee.EmployeeId" />
     <Link Source="Order" Target="Order.Employee" Category="Contains" />
     <Link Source="Order" Target="Order.EmployeeID" Category="Contains" />
@@ -108,8 +108,8 @@
     <Link Source="Order" Target="Order.Reservation" Category="Contains" />
     <Link Source="Order" Target="Order.ReservationID" Category="Contains" />
     <Link Source="Order" Target="Order.TotalAmount" Category="Contains" />
-    <Link Source="Order" Target="Reservation" Category="Foreign Key" Annotations="" Bounds="524.043579101563,537.679992675781,45.0831298828125,39.9879150390625" From="Order.ReservationID" IsUnique="False" Label="1:*" LabelBounds="535.878333333333,552.68,14.0733333333334,15.96" Name="Order -&gt; Reservation" To="Reservation.ReservationID" />
-    <Link Source="OrderItem" Target="MenuItem" Category="Foreign Key" Annotations="" Bounds="164.95166015625,237.880004882813,14.2492523193359,636.559997558594" From="OrderItem.MenuItemID" IsUnique="False" Label="1:*" LabelBounds="150.878333333333,552.68,14.0733333333333,15.96" Name="OrderItem -&gt; MenuItem" To="MenuItem.MenuItemId" />
+    <Link Source="Order" Target="Reservation" Category="Foreign Key" Annotations="" Bounds="524.043579101563,537.679992675781,45.0831298828125,39.9879150390625" From="Order.ReservationID" IsUnique="False" Label="1:*" LabelBounds="535.878333333334,552.68,14.0733333333334,15.96" Name="Order -&gt; Reservation" To="Reservation.ReservationID" />
+    <Link Source="OrderItem" Target="MenuItem" Category="Foreign Key" Annotations="" Bounds="164.95166015625,237.880004882813,14.2492523193359,636.559997558594" From="OrderItem.MenuItemID" IsUnique="False" Label="1:*" LabelBounds="150.878333333334,552.68,14.0733333333333,15.96" Name="OrderItem -&gt; MenuItem" To="MenuItem.MenuItemId" />
     <Link Source="OrderItem" Target="Order" Category="Foreign Key" Annotations="" Bounds="272.194091796875,237.880004882813,24.1207275390625,38.342041015625" From="OrderItem.OrderID" IsUnique="False" Label="1:*" LabelBounds="272.57732531332,252.88,14.0733333333333,15.96" Name="OrderItem -&gt; Order" To="Order.OrderID" />
     <Link Source="OrderItem" Target="OrderItem.MenuItem" Category="Contains" />
     <Link Source="OrderItem" Target="OrderItem.MenuItemID" Category="Contains" />
@@ -117,7 +117,7 @@
     <Link Source="OrderItem" Target="OrderItem.OrderID" Category="Contains" />
     <Link Source="OrderItem" Target="OrderItem.OrderItemId" Category="Contains" />
     <Link Source="OrderItem" Target="OrderItem.Quantity" Category="Contains" />
-    <Link Source="Reservation" Target="Customer" Category="Foreign Key" Annotations="" Bounds="613.394226074219,837.47998046875,36.1282348632813,66.044189453125" From="Reservation.CustomerId" IsUnique="False" Label="1:*" LabelBounds="636.951666666666,852.48,14.0733333333334,15.96" Name="Reservation -&gt; Customer" To="Customer.Id" />
+    <Link Source="Reservation" Target="Customer" Category="Foreign Key" Annotations="" Bounds="613.394226074219,837.47998046875,36.1282348632813,66.044189453125" From="Reservation.CustomerId" IsUnique="False" Label="1:*" LabelBounds="636.951666666667,852.48,14.0733333333334,15.96" Name="Reservation -&gt; Customer" To="Customer.Id" />
     <Link Source="Reservation" Target="Reservation.Customer" Category="Contains" />
     <Link Source="Reservation" Target="Reservation.CustomerId" Category="Contains" />
     <Link Source="Reservation" Target="Reservation.Orders" Category="Contains" />
@@ -128,7 +128,7 @@
     <Link Source="Reservation" Target="Reservation.RestaurantID" Category="Contains" />
     <Link Source="Reservation" Target="Reservation.Table" Category="Contains" />
     <Link Source="Reservation" Target="Reservation.TableID" Category="Contains" />
-    <Link Source="Reservation" Target="Restaurant" Category="Foreign Key" Annotations="" Bounds="749.836120605469,837.47998046875,11.1155395507813,336.760009765625" From="Reservation.RestaurantID" IsUnique="False" Label="1:*" LabelBounds="746.878333333333,1002.38,14.0733333333333,15.96" Name="Reservation -&gt; Restaurant" To="Restaurant.RestaurantId" />
+    <Link Source="Reservation" Target="Restaurant" Category="Foreign Key" Annotations="" Bounds="749.836120605469,837.47998046875,11.1155395507813,336.760009765625" From="Reservation.RestaurantID" IsUnique="False" Label="1:*" LabelBounds="746.878333333334,1002.38,14.0733333333333,15.96" Name="Reservation -&gt; Restaurant" To="Restaurant.RestaurantId" />
     <Link Source="Reservation" Target="Table" Category="Foreign Key" Annotations="" Bounds="804.044799804688,837.47998046875,44.5609741210938,66.4646606445313" From="Reservation.TableID" IsUnique="False" Label="1:*" LabelBounds="819.451666666667,852.48,14.0733333333333,15.96" Name="Reservation -&gt; Table" To="Table.TableId" />
     <Link Source="Restaurant" Target="Restaurant.Address" Category="Contains" />
     <Link Source="Restaurant" Target="Restaurant.Employees" Category="Contains" />
@@ -139,7 +139,7 @@
     <Link Source="Restaurant" Target="Restaurant.Reservations" Category="Contains" />
     <Link Source="Restaurant" Target="Restaurant.RestaurantId" Category="Contains" />
     <Link Source="Restaurant" Target="Restaurant.Tables" Category="Contains" />
-    <Link Source="Table" Target="Restaurant" Category="Foreign Key" Annotations="" Bounds="832.48095703125,1109.30004882813,34.9974975585938,65.989013671875" From="Table.RestaurantID" IsUnique="False" Label="1:*" LabelBounds="826.378333333333,1152.28,14.0733333333333,15.96" Name="Table -&gt; Restaurant" To="Restaurant.RestaurantId" />
+    <Link Source="Table" Target="Restaurant" Category="Foreign Key" Annotations="" Bounds="832.48095703125,1109.30004882813,34.9974975585938,65.989013671875" From="Table.RestaurantID" IsUnique="False" Label="1:*" LabelBounds="826.378333333334,1152.28,14.0733333333333,15.96" Name="Table -&gt; Restaurant" To="Restaurant.RestaurantId" />
     <Link Source="Table" Target="Table.Capacity" Category="Contains" />
     <Link Source="Table" Target="Table.Restaurant" Category="Contains" />
     <Link Source="Table" Target="Table.RestaurantID" Category="Contains" />

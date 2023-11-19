@@ -1,8 +1,9 @@
-﻿using RestaurantReservation.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using RestaurantReservation.Domain.Entities;
 
 namespace RestaurantReservation.Db.Repositories;
 
-public class RestaurantRepository
+public class RestaurantRepository : IRestaurantRepository
 {
     private readonly RestaurantReservationDbContext _context;
 
@@ -11,27 +12,48 @@ public class RestaurantRepository
         _context = context;
     }
 
+    public async Task<bool> RestaurantExistsAsync(int id)
+    {
+        return await _context.Restaurants.AnyAsync(c => c.RestaurantId == id);
+    }
+    public async Task<IEnumerable<Restaurant>> GetAllRestaurantsAsync()
+    {
+        return await _context.Restaurants.ToListAsync();
+    }
+
+    public async Task<Restaurant?> GetRestaurantAsync(int id, bool includeEmployees = false,
+        bool includeMenuItems = false)
+    {
+        var restaurant =  await _context.Restaurants.FirstOrDefaultAsync(c => c.RestaurantId == id);
+        if (restaurant == null)
+        {
+            return null;
+        }
+
+        if (includeEmployees)
+        {
+            _context.Entry(restaurant).Collection(r => r.Employees).Load(); 
+        }
+        if (includeMenuItems)
+        {
+            _context.Entry(restaurant).Collection(r => r.MenuItems).Load();
+        }
+
+        return restaurant;
+    }
     public Restaurant CreateRestaurant(Restaurant restaurant)
     {
         _context.Restaurants.Add(restaurant);
-        _context.SaveChanges();
         return restaurant;
     }
 
-    public Restaurant UpdateRestaurant(Restaurant restaurant)
+    public void DeleteRestaurant(Restaurant restaurant)
     {
-        _context.Restaurants.Update(restaurant);
-        _context.SaveChanges();
-        return restaurant;
+        _context.Restaurants.Remove(restaurant);
     }
 
-    public void DeleteRestaurant(int restaurantId)
+    public async Task<bool> SaveChangesAsync()
     {
-        var restaurant = _context.Restaurants.Find(restaurantId);
-        if (restaurant != null)
-        {
-            _context.Restaurants.Remove(restaurant);
-            _context.SaveChanges();
-        }
+        return (await _context.SaveChangesAsync() >= 0);
     }
 }

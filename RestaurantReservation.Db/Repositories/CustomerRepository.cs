@@ -47,14 +47,14 @@ public class CustomerRepository : ICustomerRepository
         _context.Customers.Remove(customer);
     }
 
-    public void AddReservation(int customerId, Reservation reservation)
-    {
-        var customer = _context.Customers.Find(customerId);
-        if (customer != null)
-        {
-            customer.Reservations.Add(reservation);
-        }
-    }
+    //public void AddReservation(int customerId, Reservation reservation)
+    //{
+    //    var customer = _context.Customers.Find(customerId);
+    //    if (customer != null)
+    //    {
+    //        customer.Reservations.Add(reservation);
+    //    }
+    //}
 
     public List<Customer> FindCustomersWithPartySizeGreaterThan(int partySize)
     {
