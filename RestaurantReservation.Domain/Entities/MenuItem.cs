@@ -1,4 +1,4 @@
-﻿namespace RestaurantReservation.Domain.Models;
+﻿namespace RestaurantReservation.Domain.Entities;
 
 public class MenuItem
 {
