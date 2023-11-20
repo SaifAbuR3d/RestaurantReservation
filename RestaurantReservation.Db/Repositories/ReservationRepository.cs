@@ -1,94 +1,54 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RestaurantReservation.Domain.Entities;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace RestaurantReservation.Db.Repositories;
 
-public class ReservationsRepository
+public class ReservationRepository : IReservationRepository
 {
     private readonly RestaurantReservationDbContext _context;
 
-    public ReservationsRepository(RestaurantReservationDbContext context)
+    public ReservationRepository(RestaurantReservationDbContext context)
     {
         _context = context;
+    }
+
+    public async Task<bool> ReservationExistsAsync(int reservationId)
+    {
+        return await _context.Reservations.AnyAsync(r => r.ReservationId == reservationId);
+    }
+
+    public async Task<IEnumerable<Reservation>> GetAllReservationsAsync()
+    {
+        return await _context.Reservations.ToListAsync();
+    }
+
+    public async Task<Reservation?> GetReservationAsync(int reservationId, bool includeOrders = false)
+    {
+        if (includeOrders)
+        {
+            return await _context.Reservations
+                .Include(r => r.Orders)
+                .FirstOrDefaultAsync(r => r.ReservationId == reservationId);
+        }
+        return await _context.Reservations
+                     .FirstOrDefaultAsync(r => r.ReservationId == reservationId);
     }
 
     public Reservation CreateReservation(Reservation reservation)
     {
         _context.Reservations.Add(reservation);
-        _context.SaveChanges();
         return reservation;
     }
 
-    public Reservation? GetReservation(int reservationId)
+    public void DeleteReservation(Reservation reservation)
     {
-        var reservation = _context.Reservations
-            .Include(r => r.Customer)
-            .Include(r => r.Table)
-            .Include(r => r.Restaurant)
-            .Include(r => r.Orders)
-            .FirstOrDefault(r => r.ReservationID == reservationId);
-
-        return reservation;
+        _context.Reservations.Remove(reservation);
     }
 
-    // move to customerRepo
-    public List<Reservation> GetReservationsByCustomer(int customerId)
+    public async Task<bool> SaveChangesAsync()
     {
-        return _context.Reservations
-            .Where(r => r.CustomerId == customerId)
-            .ToList();
+        return (await _context.SaveChangesAsync() >= 0);
     }
-
-    public Reservation UpdateReservation(Reservation reservation)
-    {
-        _context.Reservations.Update(reservation);
-        _context.SaveChanges();
-        return reservation;
-    }
-
-    public Reservation? UpdateReservationDetails(int reservationId, DateTime newDate, int newPartySize)
-    {
-        var reservation = _context.Reservations.Find(reservationId);
-        if (reservation != null)
-        {
-            reservation.ReservationDate = newDate;
-            reservation.PartySize = newPartySize;
-            _context.SaveChanges();
-        }
-        return reservation;
-    }
-
-    public void DeleteReservation(int reservationId)
-    {
-        var reservation = _context.Reservations.Find(reservationId);
-        if (reservation != null)
-        {
-            _context.Reservations.Remove(reservation);
-            _context.SaveChanges();
-        }
-    }
-
-    public void ListOrdersAndMenuItems(int reservationId)
-    {
-        var reservation = _context.Reservations
-                   .Include(r => r.Orders)
-                   .ThenInclude(o => o.OrderItems)
-                   .ThenInclude(oi => oi.MenuItem)
-                   .FirstOrDefault(r => r.ReservationID == reservationId);
-
-        if (reservation == null)
-        {
-            return;
-        }
-
-        foreach (var order in reservation.Orders)
-        {
-            Console.WriteLine(order.OrderID);
-            foreach (var orderItem in order.OrderItems)
-            {
-                Console.WriteLine($" - {orderItem.MenuItem.MenuItemId}");
-            }
-        }
-    }
-
 }
