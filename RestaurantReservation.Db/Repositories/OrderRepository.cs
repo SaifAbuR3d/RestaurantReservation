@@ -16,7 +16,7 @@ public class OrderRepository
     {
         var reservation = _context.Reservations
             .Include(r => r.Orders)
-            .FirstOrDefault(r => r.ReservationID == reservationId);
+            .FirstOrDefault(r => r.ReservationId == reservationId);
 
         if (reservation == null)
         {

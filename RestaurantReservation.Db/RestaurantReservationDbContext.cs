@@ -120,42 +120,42 @@ public class RestaurantReservationDbContext : DbContext
     private void SeedOrders(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Order>().HasData(
-            new Order { OrderID = 1, ReservationID = 1, EmployeeID = 5, OrderDate = DateTime.Parse("1/5/2020"), TotalAmount = 36.97m },
-            new Order { OrderID = 2, ReservationID = 1, EmployeeID = 5, OrderDate = DateTime.Parse("1/9/2020"), TotalAmount = 39.93m },
-            new Order { OrderID = 3, ReservationID = 2, EmployeeID = 4, OrderDate = DateTime.Parse("1/9/2021"), TotalAmount = 37.98m },
-            new Order { OrderID = 4, ReservationID = 2, EmployeeID = 4, OrderDate = DateTime.Parse("1/5/2020"), TotalAmount = 17.99m },
-            new Order { OrderID = 5, ReservationID = 3, EmployeeID = 5, OrderDate = DateTime.Parse("4/9/2020"), TotalAmount = 12.99m },
-            new Order { OrderID = 6, ReservationID = 4, EmployeeID = 4, OrderDate = DateTime.Parse("7/9/2020"), TotalAmount = 35.98m },
-            new Order { OrderID = 7, ReservationID = 5, EmployeeID = 5, OrderDate = DateTime.Parse("1/2/2020"), TotalAmount = 8.99m },
-            new Order { OrderID = 8, ReservationID = 5, EmployeeID = 5, OrderDate = DateTime.Parse("1/5/2020"), TotalAmount = 8.99m }
+            new Order { OrderId = 1, ReservationId = 1, EmployeeId = 5, OrderDate = DateTime.Parse("1/5/2020"), TotalAmount = 36.97m },
+            new Order { OrderId = 2, ReservationId = 1, EmployeeId = 5, OrderDate = DateTime.Parse("1/9/2020"), TotalAmount = 39.93m },
+            new Order { OrderId = 3, ReservationId = 2, EmployeeId = 4, OrderDate = DateTime.Parse("1/9/2021"), TotalAmount = 37.98m },
+            new Order { OrderId = 4, ReservationId = 2, EmployeeId = 4, OrderDate = DateTime.Parse("1/5/2020"), TotalAmount = 17.99m },
+            new Order { OrderId = 5, ReservationId = 3, EmployeeId = 5, OrderDate = DateTime.Parse("4/9/2020"), TotalAmount = 12.99m },
+            new Order { OrderId = 6, ReservationId = 4, EmployeeId = 4, OrderDate = DateTime.Parse("7/9/2020"), TotalAmount = 35.98m },
+            new Order { OrderId = 7, ReservationId = 5, EmployeeId = 5, OrderDate = DateTime.Parse("1/2/2020"), TotalAmount = 8.99m },
+            new Order { OrderId = 8, ReservationId = 5, EmployeeId = 5, OrderDate = DateTime.Parse("1/5/2020"), TotalAmount = 8.99m }
         );
     }
 
     private void SeedOrderItems(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<OrderItem>().HasData(
-            new OrderItem { OrderItemId = 1, OrderID = 1, MenuItemID = 1, Quantity = 2 },
-            new OrderItem { OrderItemId = 2, OrderID = 1, MenuItemID = 3, Quantity = 1 },
-            new OrderItem { OrderItemId = 3, OrderID = 2, MenuItemID = 5, Quantity = 3 },
-            new OrderItem { OrderItemId = 4, OrderID = 2, MenuItemID = 1, Quantity = 1 },
-            new OrderItem { OrderItemId = 5, OrderID = 3, MenuItemID = 2, Quantity = 1 },
-            new OrderItem { OrderItemId = 6, OrderID = 3, MenuItemID = 4, Quantity = 1 },
-            new OrderItem { OrderItemId = 7, OrderID = 4, MenuItemID = 2, Quantity = 1 },
-            new OrderItem { OrderItemId = 8, OrderID = 5, MenuItemID = 1, Quantity = 1 },
-            new OrderItem { OrderItemId = 9, OrderID = 6, MenuItemID = 2, Quantity = 2 },
-            new OrderItem { OrderItemId = 10, OrderID = 7, MenuItemID = 5, Quantity = 1 },
-            new OrderItem { OrderItemId = 11, OrderID = 8, MenuItemID = 5, Quantity = 1 }
+            new OrderItem { OrderItemId = 1, OrderId = 1, MenuItemId = 1, Quantity = 2 },
+            new OrderItem { OrderItemId = 2, OrderId = 1, MenuItemId = 3, Quantity = 1 },
+            new OrderItem { OrderItemId = 3, OrderId = 2, MenuItemId = 5, Quantity = 3 },
+            new OrderItem { OrderItemId = 4, OrderId = 2, MenuItemId = 1, Quantity = 1 },
+            new OrderItem { OrderItemId = 5, OrderId = 3, MenuItemId = 2, Quantity = 1 },
+            new OrderItem { OrderItemId = 6, OrderId = 3, MenuItemId = 4, Quantity = 1 },
+            new OrderItem { OrderItemId = 7, OrderId = 4, MenuItemId = 2, Quantity = 1 },
+            new OrderItem { OrderItemId = 8, OrderId = 5, MenuItemId = 1, Quantity = 1 },
+            new OrderItem { OrderItemId = 9, OrderId = 6, MenuItemId = 2, Quantity = 2 },
+            new OrderItem { OrderItemId = 10, OrderId = 7, MenuItemId = 5, Quantity = 1 },
+            new OrderItem { OrderItemId = 11, OrderId = 8, MenuItemId = 5, Quantity = 1 }
         );
     }
 
     private void SeedReservations(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Reservation>().HasData(
-            new Reservation { ReservationID = 1, CustomerId = 1, RestaurantID = 1, TableID = 1, ReservationDate = DateTime.Parse("1/9/2020"), PartySize = 4 },
-            new Reservation { ReservationID = 2, CustomerId = 2, RestaurantID = 2, TableID = 2, ReservationDate = DateTime.Parse("1/5/2020"), PartySize = 2 },
-            new Reservation { ReservationID = 3, CustomerId = 3, RestaurantID = 1, TableID = 3, ReservationDate = DateTime.Parse("2/9/2020"), PartySize = 6 },
-            new Reservation { ReservationID = 4, CustomerId = 1, RestaurantID = 2, TableID = 2, ReservationDate = DateTime.Parse("1/7/2020"), PartySize = 1 },
-            new Reservation { ReservationID = 5, CustomerId = 2, RestaurantID = 1, TableID = 5, ReservationDate = DateTime.Parse("4/3/2020"), PartySize = 4 }
+            new Reservation { ReservationId = 1, CustomerId = 1, RestaurantId = 1, TableId = 1, ReservationDate = DateTime.Parse("1/9/2020"), PartySize = 4 },
+            new Reservation { ReservationId = 2, CustomerId = 2, RestaurantId = 2, TableId = 2, ReservationDate = DateTime.Parse("1/5/2020"), PartySize = 2 },
+            new Reservation { ReservationId = 3, CustomerId = 3, RestaurantId = 1, TableId = 3, ReservationDate = DateTime.Parse("2/9/2020"), PartySize = 6 },
+            new Reservation { ReservationId = 4, CustomerId = 1, RestaurantId = 2, TableId = 2, ReservationDate = DateTime.Parse("1/7/2020"), PartySize = 1 },
+            new Reservation { ReservationId = 5, CustomerId = 2, RestaurantId = 1, TableId = 5, ReservationDate = DateTime.Parse("4/3/2020"), PartySize = 4 }
         );
     }
 
@@ -170,11 +170,11 @@ public class RestaurantReservationDbContext : DbContext
     private void SeedTables(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Table>().HasData(
-            new Table { TableId = 1, RestaurantID = 1, Capacity = 4 },
-            new Table { TableId = 2, RestaurantID = 2, Capacity = 2 },
-            new Table { TableId = 3, RestaurantID = 1, Capacity = 6 },
-            new Table { TableId = 4, RestaurantID = 2, Capacity = 4 },
-            new Table { TableId = 5, RestaurantID = 1, Capacity = 5 }
+            new Table { TableId = 1, RestaurantId = 1, Capacity = 4 },
+            new Table { TableId = 2, RestaurantId = 2, Capacity = 2 },
+            new Table { TableId = 3, RestaurantId = 1, Capacity = 6 },
+            new Table { TableId = 4, RestaurantId = 2, Capacity = 4 },
+            new Table { TableId = 5, RestaurantId = 1, Capacity = 5 }
         );
     }
 

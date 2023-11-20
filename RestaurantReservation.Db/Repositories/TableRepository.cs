@@ -19,19 +19,19 @@ public class TableRepository : ITableRepository
 
     public async Task<IEnumerable<Table>> GetTablesInRestaurantAsync(int restaurantId)
     {
-        return await _context.Tables.Where(t => t.RestaurantID == restaurantId).ToListAsync();
+        return await _context.Tables.Where(t => t.RestaurantId == restaurantId).ToListAsync();
     }
 
     public async Task<Table?> GetTableAsync(int restaurantId, int tableId)
     {
-        return await _context.Tables.FirstOrDefaultAsync(t => t.RestaurantID == restaurantId
+        return await _context.Tables.FirstOrDefaultAsync(t => t.RestaurantId == restaurantId
                                                            && t.TableId == tableId);
     }
 
     public Table CreateTable(int restaurantId, Table table)
     {
         _context.Tables.Add(table);
-        table.RestaurantID = restaurantId;
+        table.RestaurantId = restaurantId;
 
         return table;
     }

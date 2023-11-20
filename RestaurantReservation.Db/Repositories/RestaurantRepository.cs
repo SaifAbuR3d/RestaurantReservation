@@ -32,11 +32,11 @@ public class RestaurantRepository : IRestaurantRepository
 
         if (includeEmployees)
         {
-            _context.Entry(restaurant).Collection(r => r.Employees).Load(); 
+           await  _context.Entry(restaurant).Collection(r => r.Employees).LoadAsync(); 
         }
         if (includeMenuItems)
         {
-            _context.Entry(restaurant).Collection(r => r.MenuItems).Load();
+            await _context.Entry(restaurant).Collection(r => r.MenuItems).LoadAsync();
         }
 
         return restaurant;

@@ -38,7 +38,7 @@ public class OrderItemRepository
     public List<OrderItem> GetOrderItemsByOrder(int orderId)
     {
         return _context.OrderItems
-            .Where(oi => oi.OrderID == orderId)
+            .Where(oi => oi.OrderId == orderId)
             .ToList();
     }
 
