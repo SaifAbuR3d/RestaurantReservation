@@ -57,10 +57,7 @@ public class CustomersController : ControllerBase
         await _customerRepository.SaveChangesAsync();
 
         return CreatedAtRoute("GetCustomer",
-            new
-            {
-                id = finalCustomer.CustomerId,
-            },
+            new {id = finalCustomer.CustomerId},
             _mapper.Map<CustomerWithoutReservationsDto>(finalCustomer));
     }
 
@@ -102,12 +99,7 @@ public class CustomersController : ControllerBase
         {
             return BadRequest();
         }
-
-        if (!TryValidateModel(customerToPatch))
-        {
-            return BadRequest();
-        }
-
+        
         _mapper.Map(customerToPatch, customerEntity);
 
         await _customerRepository.SaveChangesAsync();
