@@ -3,7 +3,7 @@ using RestaurantReservation.Domain.Entities;
 
 namespace RestaurantReservation.Db.Repositories;
 
-public class OrderRepository : IOrderRepository
+public class OrderRepository
 {
     private readonly RestaurantReservationDbContext _context;
 
@@ -12,57 +12,39 @@ public class OrderRepository : IOrderRepository
         _context = context;
     }
 
-    public async Task<bool> OrderExistsAsync(int reservationId, int orderId)
+    public Order? CreateOrder(int reservationId, Order order)
     {
-        return await _context.Orders.AnyAsync(c => c.ReservationId == reservationId && c.OrderId == orderId);
-    }
+        var reservation = _context.Reservations
+            .Include(r => r.Orders)
+            .FirstOrDefault(r => r.ReservationId == reservationId);
 
-    public async Task<IEnumerable<Order>> GetOrdersForReservationAsync(int reservationId)
-    {
-        return await _context.Orders
-            .Include(o => o.OrderItems)
-            .Where(o => o.ReservationId == reservationId)
-            .ToListAsync();
-    }
-
-    public async Task<Order?> GetOrderAsync(int reservationId, int orderId)
-    {
-        return await _context.Orders
-            .Include(o => o.OrderItems)
-            .FirstOrDefaultAsync(o => o.ReservationId == reservationId && o.OrderId == orderId);
-    }
-
-    public void CreateOrder(int reservationId, Order order)
-    {
-        order.ReservationId = reservationId;
-        _context.Orders.Add(order);
-    }
-
-    public void DeleteOrder(Order order)
-    {
-        _context.Orders.Remove(order);
-    }
-
-    public async Task<bool> SaveChangesAsync()
-    {
-        return (await _context.SaveChangesAsync() >= 0);
-    }
-
-    public async Task<decimal> CalculateTotalAmount(int orderId)
-    {
-        var order = await _context.Orders
-            .Include(o => o.OrderItems)
-            .ThenInclude(oi => oi.MenuItem)
-            .FirstOrDefaultAsync(o => o.OrderId == orderId);
-
-        if (order == null)
+        if (reservation == null)
         {
-            return 0;
+            return null;
         }
 
-        decimal totalAmount = order.OrderItems?.Sum(oi => oi.Quantity * oi.MenuItem.Price) ?? 0;
-        order.TotalAmount = totalAmount;
+        _context.Orders.Add(order);
+        reservation.Orders.Add(order);
 
-        return totalAmount;
+        _context.SaveChanges();
+
+        return order;
+    }
+
+    public Order UpdateOrder(Order order)
+    {
+        _context.Orders.Update(order);
+        _context.SaveChanges();
+        return order;
+    }
+
+    public void DeleteOrder(int orderId)
+    {
+        var order = _context.Orders.Find(orderId);
+        if (order != null)
+        {
+            _context.Orders.Remove(order);
+            _context.SaveChanges();
+        }
     }
 }

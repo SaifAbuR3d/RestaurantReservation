@@ -9,5 +9,5 @@ public class EmployeeWithOrdersDto
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public string Position { get; set; }
-    public List<Order> Orders { get; set; }
+    public List<OrderDto> Orders { get; set; }
 }

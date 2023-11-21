@@ -9,6 +9,6 @@ namespace RestaurantReservation.Api.Models
         public string Address { get; set; }
         public string PhoneNumber { get; set; }
         public string OpenningHours { get; set; }
-        public List<MenuItem> MenuItems { get; set; }
+        public List<MenuItemDto> MenuItems { get; set; }
     }
 }

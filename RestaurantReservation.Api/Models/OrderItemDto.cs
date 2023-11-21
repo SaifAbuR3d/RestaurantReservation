@@ -1,12 +1,11 @@
-﻿namespace RestaurantReservation.Domain.Entities;
+﻿using RestaurantReservation.Domain.Entities;
 
-public class OrderItem
+namespace RestaurantReservation.Api.Models;
+
+public class OrderItemDto
 {
     public int OrderItemId { get; set; }
     public int OrderId { get; set; }
     public int MenuItemId { get; set; }
     public int Quantity { get; set; }
-    public Order Order { get; set; }
-    public MenuItem MenuItem { get; set; }
-
 }

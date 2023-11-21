@@ -1,45 +1,56 @@
-﻿using RestaurantReservation.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using RestaurantReservation.Domain.Entities;
 
 namespace RestaurantReservation.Db.Repositories;
 
-public class OrderItemRepository
+public class OrderItemRepository : IOrderItemRepository
 {
     private readonly RestaurantReservationDbContext _context;
+    private readonly IOrderRepository _orderRepository;
 
-    public OrderItemRepository(RestaurantReservationDbContext context)
+    public OrderItemRepository(RestaurantReservationDbContext context,
+        IOrderRepository orderRepository)
     {
         _context = context;
+        _orderRepository = orderRepository;
     }
 
-    public OrderItem CreateOrderItem(OrderItem orderItem)
+    public async Task<IEnumerable<OrderItem>> GetOrderItemsForOrderAsync(int reservationId, int orderId)
     {
+        return await _context.OrderItems
+            .Include(oi => oi.MenuItem)
+            .Where(oi => oi.Order.ReservationId == reservationId && oi.OrderId == orderId)
+            .ToListAsync();
+    }
+
+    public async Task<OrderItem?> GetOrderItemAsync(int reservationId, int orderId, int orderItemId)
+    {
+        return await _context.OrderItems
+                         .Include(oi => oi.MenuItem)
+                         .FirstOrDefaultAsync(oi =>
+                                              oi.Order.ReservationId == reservationId &&
+                                              oi.OrderId == orderId &&
+                                              oi.OrderItemId == orderItemId);
+    }
+
+    public void AddOrderItemToOrder(int orderId, OrderItem orderItem)
+    {
+        orderItem.OrderId = orderId;
         _context.OrderItems.Add(orderItem);
-        _context.SaveChanges();
-        return orderItem;
     }
 
-    public OrderItem UpdateOrderItem(OrderItem orderItem)
+    public void DeleteOrderItem(OrderItem orderItem)
     {
-        _context.OrderItems.Update(orderItem);
-        _context.SaveChanges();
-        return orderItem;
+        _context.OrderItems.Remove(orderItem);
     }
 
-    public void DeleteOrderItem(int orderItemId)
+    public async Task<bool> SaveChangesAsync(int orderId)
     {
-        var orderItem = _context.OrderItems.Find(orderItemId);
-        if (orderItem != null)
+        var order = _context.Orders.Find(orderId);
+        if (order != null)
         {
-            _context.OrderItems.Remove(orderItem);
-            _context.SaveChanges();
+            order.TotalAmount = await _orderRepository.CalculateTotalAmount(orderId);
         }
+        return (await _context.SaveChangesAsync() >= 0);
     }
-
-    public List<OrderItem> GetOrderItemsByOrder(int orderId)
-    {
-        return _context.OrderItems
-            .Where(oi => oi.OrderId == orderId)
-            .ToList();
-    }
-
 }
