@@ -1,6 +1,7 @@
-﻿using RestaurantReservation.Api.Models;
-using RestaurantReservation.Domain.Entities;
-using AutoMapper; 
+﻿using RestaurantReservation.Domain.Entities;
+using AutoMapper;
+using RestaurantReservation.Api.Contracts.Models;
+
 namespace RestaurantReservation.Api.Profiles;
 
 public class TableProfile : Profile

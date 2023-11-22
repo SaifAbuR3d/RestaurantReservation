@@ -1,17 +1,18 @@
-﻿using RestaurantReservation.Api.Models;
-using RestaurantReservation.Domain.Entities;
-using AutoMapper; 
+﻿using RestaurantReservation.Domain.Entities;
+using AutoMapper;
+using RestaurantReservation.Api.Contracts.Models;
+
 namespace RestaurantReservation.Api.Profiles;
 
 public class RestaurantProfile : Profile
 {
     public RestaurantProfile()
     {
-        CreateMap<Restaurant, Models.RestaurantDto>();
-        CreateMap<Restaurant, Models.RestaurantWithEmployeesDto>();
-        CreateMap<Restaurant, Models.RestaurantWithMenuItemsDto>();
-        CreateMap<Models.RestaurantIsolatedDto, Restaurant>();
-        CreateMap<Restaurant, Models.RestaurantIsolatedDto>();
+        CreateMap<Restaurant, RestaurantDto>();
+        CreateMap<Restaurant, RestaurantWithEmployeesDto>();
+        CreateMap<Restaurant, RestaurantWithMenuItemsDto>();
+        CreateMap<RestaurantIsolatedDto, Restaurant>();
+        CreateMap<Restaurant, RestaurantIsolatedDto>();
 
     }
 }

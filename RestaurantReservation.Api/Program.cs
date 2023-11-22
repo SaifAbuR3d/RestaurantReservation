@@ -1,4 +1,5 @@
 using FluentValidation.AspNetCore;
+using RestaurantReservation.Api.Contracts.RepositoryInterface;
 using RestaurantReservation.Db;
 using RestaurantReservation.Db.Repositories;
 using System.Reflection;

@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using RestaurantReservation.Api.Models;
-using RestaurantReservation.Db.Repositories;
+using RestaurantReservation.Api.Contracts.Models;
+using RestaurantReservation.Api.Contracts.RepositoryInterface;
 using RestaurantReservation.Domain.Entities;
 
 namespace RestaurantReservation.Api.Controllers;

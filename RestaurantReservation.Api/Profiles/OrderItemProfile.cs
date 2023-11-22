@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using RestaurantReservation.Api.Models;
+using RestaurantReservation.Api.Contracts.Models;
 using RestaurantReservation.Domain.Entities;
 
 namespace RestaurantReservation.Api.Profiles;

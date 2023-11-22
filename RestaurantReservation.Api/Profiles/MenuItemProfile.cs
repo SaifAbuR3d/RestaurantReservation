@@ -1,17 +1,16 @@
 ﻿using AutoMapper;
-using RestaurantReservation.Api.Models;
+using RestaurantReservation.Api.Contracts.Models;
 using RestaurantReservation.Domain.Entities;
 
-namespace RestaurantReservation.Api.Profiles
+namespace RestaurantReservation.Api.Profiles;
+
+public class MenuItemProfile : Profile
 {
-    public class MenuItemProfile : Profile
+    public MenuItemProfile()
     {
-        public MenuItemProfile()
-        {
-            CreateMap<MenuItem, MenuItemDto>();
-            CreateMap<MenuItemForUpdateDto, MenuItem>();
-            CreateMap<MenuItem, MenuItemForUpdateDto>();
-            CreateMap<MenuItemForCreationDto, MenuItem>();
-        }
+        CreateMap<MenuItem, MenuItemDto>();
+        CreateMap<MenuItemForUpdateDto, MenuItem>();
+        CreateMap<MenuItem, MenuItemForUpdateDto>();
+        CreateMap<MenuItemForCreationDto, MenuItem>();
     }
 }

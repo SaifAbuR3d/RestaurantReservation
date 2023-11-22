@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using RestaurantReservation.Api.Models;
+using RestaurantReservation.Api.Contracts.Models;
 
 namespace RestaurantReservation.Api.Validators;
 

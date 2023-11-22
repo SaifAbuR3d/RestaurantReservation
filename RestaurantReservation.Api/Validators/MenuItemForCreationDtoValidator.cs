@@ -1,20 +1,19 @@
 ﻿using FluentValidation;
-using RestaurantReservation.Api.Models;
+using RestaurantReservation.Api.Contracts.Models;
 
-namespace RestaurantReservation.Api.Validators
+namespace RestaurantReservation.Api.Validators;
+
+public class MenuItemForCreationDtoValidator : AbstractValidator<MenuItemForCreationDto>
 {
-    public class MenuItemForCreationDtoValidator : AbstractValidator<MenuItemForCreationDto>
+    public MenuItemForCreationDtoValidator()
     {
-        public MenuItemForCreationDtoValidator()
-        {
-            RuleFor(x => x.Description)
-                .NotEmpty().NotNull()
-                .Length(1, 300); 
+        RuleFor(x => x.Description)
+            .NotEmpty().NotNull()
+            .Length(1, 300); 
 
-            RuleFor(x => x.Name).ValidName();
+        RuleFor(x => x.Name).ValidName();
 
-            RuleFor(x => x.Price)
-                .NotEmpty().NotNull();
-        }
+        RuleFor(x => x.Price)
+            .NotEmpty().NotNull();
     }
 }

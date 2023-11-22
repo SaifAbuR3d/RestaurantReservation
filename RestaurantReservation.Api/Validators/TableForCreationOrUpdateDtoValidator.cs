@@ -1,15 +1,14 @@
 ﻿using FluentValidation;
-using RestaurantReservation.Api.Models;
+using RestaurantReservation.Api.Contracts.Models;
 
-namespace RestaurantReservation.Api.Validators
+namespace RestaurantReservation.Api.Validators;
+
+public class TableForCreationOrUpdateDtoValidator : AbstractValidator<TableForCreationOrUpdateDto>
 {
-    public class TableForCreationOrUpdateDtoValidator : AbstractValidator<TableForCreationOrUpdateDto>
+    public TableForCreationOrUpdateDtoValidator()
     {
-        public TableForCreationOrUpdateDtoValidator()
-        {
-            RuleFor(x => x.Capacity)
-                .NotEmpty().NotNull()
-                .InclusiveBetween(1, 30); 
-        }
+        RuleFor(x => x.Capacity)
+            .NotEmpty().NotNull()
+            .InclusiveBetween(1, 30); 
     }
 }

@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using RestaurantReservation.Api.Models;
-using RestaurantReservation.Db.Repositories;
+using RestaurantReservation.Api.Contracts.Models;
+using RestaurantReservation.Api.Contracts.RepositoryInterface;
 using RestaurantReservation.Domain.Entities;
 
 namespace RestaurantReservation.Api.Controllers;
@@ -33,7 +33,7 @@ public class CustomersController : ControllerBase
         var customer = await _customerRepository.GetCustomerAsync(customerId, includeReservations);
         if (customer == null)
         {
-            return NotFound($"Customer with ID {customerId} not found.");
+            return NotFound($"Customer not found.");
         }
 
         return includeReservations
