@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantReservation.Api.Contracts.Models;
-using RestaurantReservation.Api.Contracts.RepositoryInterface;
+using RestaurantReservation.Db.Repositories.RepositoryInterface;
 using RestaurantReservation.Domain.Entities;
 
 namespace RestaurantReservation.Api.Controllers;

@@ -1,6 +1,6 @@
 ﻿using RestaurantReservation.Domain.Entities;
 
-namespace RestaurantReservation.Api.Contracts.RepositoryInterface;
+namespace RestaurantReservation.Db.Repositories.RepositoryInterface;
 
 public interface ITableRepository
 {

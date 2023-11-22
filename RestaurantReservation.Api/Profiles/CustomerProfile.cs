@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using RestaurantReservation.Api.Contracts;
 using RestaurantReservation.Api.Contracts.Models;
 using RestaurantReservation.Domain.Entities;
 

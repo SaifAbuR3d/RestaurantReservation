@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RestaurantReservation.Db.Repositories.RepositoryInterface;
 using RestaurantReservation.Domain.Entities;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace RestaurantReservation.Db.Repositories;
 
