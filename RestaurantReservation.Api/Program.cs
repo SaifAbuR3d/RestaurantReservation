@@ -1,5 +1,7 @@
+using FluentValidation.AspNetCore;
 using RestaurantReservation.Db;
 using RestaurantReservation.Db.Repositories;
+using System.Reflection;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,7 +10,17 @@ builder.Services.AddControllers()
                 .AddJsonOptions(opt =>
                 opt.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles)
                 .AddNewtonsoftJson(opt =>
-                opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);  
+                opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
+
+builder.Services.AddControllers()
+            .AddFluentValidation(v =>
+            {
+                v.ImplicitlyValidateChildProperties = true;
+                v.ImplicitlyValidateRootCollectionElements = true;
+                v.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+            });
+
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
