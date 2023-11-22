@@ -12,9 +12,11 @@ public class TableRepository : ITableRepository
         _context = context;
     }
 
-    public async Task<bool> TableExistsAsync(int id)
+    public async Task<bool> TableExistsAsync(int restaurantId, int id)
     {
-        return await _context.Tables.AnyAsync(c => c.TableId == id);
+        return await _context.Tables
+            .AnyAsync(c => c.RestaurantId == restaurantId
+                        && c.TableId == id);
     }
 
     public async Task<IEnumerable<Table>> GetTablesInRestaurantAsync(int restaurantId)

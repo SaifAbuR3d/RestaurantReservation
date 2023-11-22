@@ -62,7 +62,7 @@ public class ReservationsController : ControllerBase
 
         var customerExists = await _customerRepository.CustomerExistsAsync(reservationForCreation.CustomerId);
         var restaurantExists = await _restaurantRepository.RestaurantExistsAsync(reservationForCreation.RestaurantId);
-        var tableExists = await _tableRepository.TableExistsAsync(reservationForCreation.TableId);
+        var tableExists = await _tableRepository.TableExistsAsync(reservationForCreation.RestaurantId, reservationForCreation.TableId);
 
         if (!customerExists || !restaurantExists || !tableExists)
         {
@@ -92,7 +92,7 @@ public class ReservationsController : ControllerBase
 
         var customerExists = await _customerRepository.CustomerExistsAsync(reservationForUpdate.CustomerId);
         var restaurantExists = await _restaurantRepository.RestaurantExistsAsync(reservationForUpdate.RestaurantId);
-        var tableExists = await _tableRepository.TableExistsAsync(reservationForUpdate.TableId);
+        var tableExists = await _tableRepository.TableExistsAsync(reservationForUpdate.RestaurantId, reservationForUpdate.TableId);
 
         if (!customerExists || !restaurantExists || !tableExists)
         {
@@ -123,7 +123,7 @@ public class ReservationsController : ControllerBase
 
         var customerExists = await _customerRepository.CustomerExistsAsync(reservationToPatch.CustomerId);
         var restaurantExists = await _restaurantRepository.RestaurantExistsAsync(reservationToPatch.RestaurantId);
-        var tableExists = await _tableRepository.TableExistsAsync(reservationToPatch.TableId);
+        var tableExists = await _tableRepository.TableExistsAsync(reservationToPatch.RestaurantId, reservationToPatch.TableId);
 
         if (!customerExists || !restaurantExists || !tableExists)
         {
