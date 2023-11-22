@@ -71,9 +71,11 @@ public class OrdersController : ControllerBase
         }
 
         var restaurantForReservation = _restaurantRepository.GetRestaurantIdByReservationIdAsync(reservationId);
-        var restaurantForEmployee = _restaurantRepository.GetRestaurantIdByEmployeeIdAsync(orderForCreation.EmployeeId); 
+        var restaurantForEmployee = _restaurantRepository.GetRestaurantIdByEmployeeIdAsync(orderForCreation.EmployeeId);
 
-        if (restaurantForEmployee != restaurantForReservation)
+        if (restaurantForReservation == null ||
+            restaurantForEmployee == null ||
+            restaurantForEmployee != restaurantForReservation)
         {
             return BadRequest("Employee not found.");
         }
@@ -107,7 +109,9 @@ public class OrdersController : ControllerBase
         var restaurantForReservation = _restaurantRepository.GetRestaurantIdByReservationIdAsync(orderForUpdate.ReservationId);
         var restaurantForEmployee = _restaurantRepository.GetRestaurantIdByEmployeeIdAsync(orderForUpdate.EmployeeId);
 
-        if (restaurantForEmployee != restaurantForReservation)
+        if (restaurantForReservation == null ||
+            restaurantForEmployee == null ||
+            restaurantForEmployee != restaurantForReservation)
         {
             return BadRequest("Employee not found.");
         }
@@ -146,8 +150,10 @@ public class OrdersController : ControllerBase
         var restaurantForReservation = _restaurantRepository.GetRestaurantIdByReservationIdAsync(orderToPatch.ReservationId);
         var restaurantForEmployee = _restaurantRepository.GetRestaurantIdByEmployeeIdAsync(orderToPatch.EmployeeId);
 
-        if (restaurantForEmployee != restaurantForReservation)
-        {
+        if (restaurantForReservation == null ||
+            restaurantForEmployee == null ||
+            restaurantForEmployee != restaurantForReservation)
+        { 
             return BadRequest("Employee not found.");
         }
 

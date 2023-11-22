@@ -82,7 +82,9 @@ public class OrderItemsController : ControllerBase
         var restaurantForReservation = _restaurantRepository.GetRestaurantIdByReservationIdAsync(reservationId);
         var restaurantForMenuItem = _restaurantRepository.GetRestaurantIdByMenuItemIdAsync(orderItemForCreation.MenuItemId);
 
-        if (restaurantForMenuItem != restaurantForReservation)
+        if (restaurantForReservation == null ||
+            restaurantForMenuItem == null ||
+            restaurantForMenuItem != restaurantForReservation)
         {
             return BadRequest("Menu Item not found");
         }
@@ -118,7 +120,9 @@ public class OrderItemsController : ControllerBase
         var restaurantForReservation = _restaurantRepository.GetRestaurantIdByReservationIdAsync(reservationId);
         var restaurantForMenuItem = _restaurantRepository.GetRestaurantIdByMenuItemIdAsync(orderItemForUpdate.MenuItemId);
 
-        if (restaurantForMenuItem != restaurantForReservation)
+        if (restaurantForReservation == null ||
+            restaurantForMenuItem == null ||
+            restaurantForMenuItem != restaurantForReservation)
         {
             return BadRequest("Menu Item not found");
         }
@@ -160,7 +164,9 @@ public class OrderItemsController : ControllerBase
         var restaurantForReservation = _restaurantRepository.GetRestaurantIdByReservationIdAsync(reservationId);
         var restaurantForMenuItem = _restaurantRepository.GetRestaurantIdByMenuItemIdAsync(orderItemToPatch.MenuItemId);
 
-        if (restaurantForMenuItem != restaurantForReservation)
+        if (restaurantForReservation == null ||
+            restaurantForMenuItem == null ||
+            restaurantForMenuItem != restaurantForReservation)
         {
             return BadRequest("Menu Item not found");
         }
