@@ -8,6 +8,7 @@ namespace RestaurantReservation.Db.Repositories
         void DeleteEmployee(Employee employee);
         Task<bool> EmployeeExistsAsync(int id);
         Task<IEnumerable<Employee>> GetAllEmployeesAsync();
+        Task<decimal?> GetAverageOrderAmountAsync(int employeeId);
         Task<Employee?> GetEmployeeAsync(int employeeId, bool includeOrders = false);
         Task<IEnumerable<Employee>> GetManagers();
         Task<bool> SaveChangesAsync();

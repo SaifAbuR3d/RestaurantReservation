@@ -40,6 +40,29 @@ public class EmployeeRepository : IEmployeeRepository
             .Where(e => e.Position == "Manager")
             .ToListAsync();
     }
+
+    public async Task<decimal?> GetAverageOrderAmountAsync(int employeeId)
+    {
+        var employee = await _context.Employees
+            .Include(e => e.Orders)
+            .FirstOrDefaultAsync(e => e.EmployeeId == employeeId);
+
+        if (employee == null)
+        {
+            return null;
+        }
+
+        if (!employee.Orders.Any())
+        {
+            return 0; 
+        }
+
+        var averageOrderAmount = employee.Orders
+            .Average(order => order.TotalAmount);
+
+        return averageOrderAmount;
+    }
+
     public Employee CreateEmployee(Employee employee)
     {
         _context.Employees.Add(employee);

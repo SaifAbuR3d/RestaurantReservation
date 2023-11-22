@@ -52,6 +52,21 @@ public class EmployeesController : ControllerBase
         return Ok(_mapper.Map<IEnumerable<EmployeeDto>>(employees));
     }
 
+
+    [HttpGet("{employeeId}/average-order-amount")]
+    public async Task<ActionResult<decimal?>> GetAverageOrderAmountForEmployee(int employeeId)
+    {
+        var averageOrderAmount = await _employeeRepository.GetAverageOrderAmountAsync(employeeId);
+
+        if (averageOrderAmount == null)
+        {
+            return NotFound("Employee not found.");
+        }
+
+        return Ok(new { AverageOrderAmount = averageOrderAmount });
+    }
+
+
     // POST: api/employees
     [HttpPost]
     public async Task<IActionResult> PostEmployee(EmployeeForCreationOrUpdate employeeForCreation)
