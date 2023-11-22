@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using Asp.Versioning;
+using AutoMapper;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantReservation.Api.Contracts.Models;
@@ -7,6 +8,7 @@ using RestaurantReservation.Domain.Entities;
 
 namespace RestaurantReservation.Api.Controllers;
 
+[ApiVersion("1.0")]
 [Route("api/restaurants/{restaurantId}/menuitems")]
 [ApiController]
 public class MenuItemsController : ControllerBase
@@ -22,9 +24,16 @@ public class MenuItemsController : ControllerBase
         _mapper = mapper;
     }
 
-
-    // GET: api/restaurants/{restaurantId}/menuitems
+    /// <summary>
+    /// Gets all menu items in a restaurant.
+    /// </summary>
+    /// <param name="restaurantId">The ID of the restaurant.</param>
+    /// <returns>The list of menu items.</returns>
+    /// <response code="200">Returns the list of menu items.</response>
+    /// <response code="404">If the restaurant with the specified ID is not found.</response>
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<MenuItemDto>))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<IEnumerable<MenuItemDto>>> GetMenuItems(int restaurantId)
     {
         var restaurantExists = await _restaurantRepository.RestaurantExistsAsync(restaurantId);
@@ -37,9 +46,17 @@ public class MenuItemsController : ControllerBase
         return Ok(_mapper.Map<IEnumerable<MenuItemDto>>(menuItems));
     }
 
-
-    // GET: api/restaurants/{restaurantId}/menuitems/{menuItemId}
+    /// <summary>
+    /// Gets a specific menu item by ID.
+    /// </summary>
+    /// <param name="restaurantId">The ID of the restaurant.</param>
+    /// <param name="menuItemId">The ID of the menu item to retrieve.</param>
+    /// <returns>The menu item data transfer object.</returns>
+    /// <response code="200">Returns the requested menu item.</response>
+    /// <response code="404">If the restaurant or menu item with the specified IDs is not found.</response>
     [HttpGet("{menuItemId}", Name = "GetMenuItem")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(MenuItemDto))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetMenuItem(int restaurantId, int menuItemId)
     {
         var restaurantExists = await _restaurantRepository.RestaurantExistsAsync(restaurantId);
@@ -57,9 +74,17 @@ public class MenuItemsController : ControllerBase
         return Ok(_mapper.Map<MenuItemDto>(menuItem));
     }
 
-
-    // POST: api/restaurants/{restaurantId}/menuitems
+    /// <summary>
+    /// Creates a new menu item in a restaurant.
+    /// </summary>
+    /// <param name="restaurantId">The ID of the restaurant.</param>
+    /// <param name="menuItemForCreation">The data for creating a new menu item.</param>
+    /// <returns>The created menu item.</returns>
+    /// <response code="201">Returns the created menu item.</response>
+    /// <response code="400">If the restaurant with the specified ID is not found or the data is invalid.</response>
     [HttpPost]
+    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(MenuItemDto))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> PostMenuItem(int restaurantId, MenuItemForCreationDto menuItemForCreation)
     {
         var restaurantExists = await _restaurantRepository.RestaurantExistsAsync(restaurantId);
@@ -72,15 +97,26 @@ public class MenuItemsController : ControllerBase
         var createdMenuItem = _menuItemRepository.CreateMenuItem(restaurantId, menuItemEntity);
 
         await _menuItemRepository.SaveChangesAsync();
-        
+
         return CreatedAtRoute("GetMenuItem",
             new { restaurantId, menuItemId = createdMenuItem.MenuItemId },
             _mapper.Map<MenuItemDto>(createdMenuItem));
     }
 
-
-    // PUT: api/restaurants/{restaurantId}/menuitems/{menuItemId}
+    /// <summary>
+    /// Updates an existing menu item in a restaurant.
+    /// </summary>
+    /// <param name="restaurantId">The ID of the restaurant.</param>
+    /// <param name="menuItemId">The ID of the menu item to update.</param>
+    /// <param name="menuItemForUpdate">The data for updating the menu item.</param>
+    /// <returns>No content if successful, not found if the restaurant or menu item does not exist.</returns>
+    /// <response code="204">If the update is successful.</response>
+    /// <response code="400">if the data is invalid, or the put fails.</response>
+    /// <response code="404">If the menu item with the specified ID or If the restaurant with the specified ID or target restaurant with the specified ID is not found.</response>
     [HttpPut("{menuItemId}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> PutMenuItem(int restaurantId, int menuItemId, MenuItemForUpdateDto menuItemForUpdate)
     {
         var restaurantExists = await _restaurantRepository.RestaurantExistsAsync(restaurantId);
@@ -95,10 +131,10 @@ public class MenuItemsController : ControllerBase
             return NotFound("Menu item not found");
         }
 
-        var targetRestaurantExists = await _restaurantRepository.RestaurantExistsAsync(menuItemForUpdate.RestaurantId); 
+        var targetRestaurantExists = await _restaurantRepository.RestaurantExistsAsync(menuItemForUpdate.RestaurantId);
         if (!targetRestaurantExists)
         {
-            return BadRequest("Target restaurant not found"); 
+            return NotFound("Target restaurant not found");
         }
 
         _mapper.Map(menuItemForUpdate, menuItemEntity);
@@ -108,9 +144,20 @@ public class MenuItemsController : ControllerBase
         return NoContent();
     }
 
-
-    // PATCH: api/restaurants/{restaurantId}/menuitems/{menuItemId}
+    /// <summary>
+    /// Updates an existing menu item partially in a restaurant.
+    /// </summary>
+    /// <param name="restaurantId">The ID of the restaurant.</param>
+    /// <param name="menuItemId">The ID of the menu item to update.</param>
+    /// <param name="patchDocument">The JSON patch document for updating the menu item.</param>
+    /// <returns>No content if successful, bad request if the update fails or the restaurant or menu item does not exist.</returns>
+    /// <response code="204">If the update is successful.</response>
+    /// <response code="400">If the patch document or updated data is invalid.</response>
+    /// <response code="404">If the menu item with the specified ID or If the restaurant with the specified ID or target restaurant with the specified ID is not found.</response>
     [HttpPatch("{menuItemId}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> PatchMenuItem(int restaurantId, int menuItemId,
         JsonPatchDocument<MenuItemForUpdateDto> patchDocument)
     {
@@ -132,15 +179,10 @@ public class MenuItemsController : ControllerBase
         var targetRestaurantExists = await _restaurantRepository.RestaurantExistsAsync(menuItemToPatch.RestaurantId);
         if (!targetRestaurantExists)
         {
-            return BadRequest("Target restaurant not found");
+            return NotFound("Target restaurant not found");
         }
 
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-
-        if (!TryValidateModel(menuItemToPatch))
+        if (!ModelState.IsValid || !TryValidateModel(menuItemToPatch))
         {
             return BadRequest(ModelState);
         }
@@ -152,9 +194,20 @@ public class MenuItemsController : ControllerBase
         return NoContent();
     }
 
+    /// <summary>
+    /// Deletes a specific menu item by ID.
+    /// </summary>
+    /// <param name="restaurantId">The ID of the restaurant.</param>
+    /// <param name="menuItemId">The ID of the menu item to delete.</param>
+    /// <returns>No content if successful, not found if the restaurant or menu item does not exist.</returns>
+    /// <response code="204">If the deletion is successful.</response>
+    /// <response code="404">If the restaurant or menu item with the specified IDs is not found.</response>
+    /// <response code="400">If the menu item cannot be deleted</response>
 
-    // DELETE: api/restaurants/{restaurantId}/menuitems/{menuItemId}
     [HttpDelete("{menuItemId}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> DeleteMenuItem(int restaurantId, int menuItemId)
     {
         var restaurantExists = await _restaurantRepository.RestaurantExistsAsync(restaurantId);

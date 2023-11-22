@@ -1,3 +1,4 @@
+using Asp.Versioning;
 using FluentValidation.AspNetCore;
 using RestaurantReservation.Db;
 using RestaurantReservation.Db.Repositories;
@@ -23,9 +24,6 @@ builder.Services.AddControllers()
             });
 
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
 builder.Services.AddScoped(_ =>
 new RestaurantReservationDbContext(builder.Configuration.GetConnectionString("SqlServer")));
 
@@ -39,6 +37,23 @@ builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+builder.Services.AddApiVersioning(setup =>
+{
+    setup.DefaultApiVersion = new ApiVersion(1, 0);
+    setup.AssumeDefaultVersionWhenUnspecified = true;
+    setup.ReportApiVersions = true;
+}).AddMvc();
+
+builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddSwaggerGen(setup =>
+{
+    var xmlCommentsFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml"; 
+    var xmlCommentsFullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentsFile);
+
+    setup.IncludeXmlComments(xmlCommentsFullPath); 
+});
 
 var app = builder.Build();
 

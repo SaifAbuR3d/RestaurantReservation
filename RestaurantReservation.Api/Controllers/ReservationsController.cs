@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using Asp.Versioning;
+using AutoMapper;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantReservation.Api.Contracts.Models;
@@ -7,6 +8,7 @@ using RestaurantReservation.Domain.Entities;
 
 namespace RestaurantReservation.Api.Controllers;
 
+[ApiVersion("1.0")]
 [Route("api/reservations")]
 [ApiController]
 public class ReservationsController : ControllerBase
@@ -34,16 +36,30 @@ public class ReservationsController : ControllerBase
         _mapper = mapper;
     }
 
-    // GET: api/reservations
+    /// <summary>
+    /// Gets all reservations.
+    /// </summary>
+    /// <returns>The list of reservations.</returns>
+    /// <response code="200">Returns the list of reservations.</response>
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<ReservationDto>))]
     public async Task<ActionResult<IEnumerable<ReservationDto>>> GetReservations()
     {
         var reservations = await _reservationRepository.GetAllReservationsAsync();
         return Ok(_mapper.Map<IEnumerable<ReservationDto>>(reservations));
     }
 
-    // GET: api/reservations/{reservationId}
+    /// <summary>
+    /// Gets a specific reservation by ID.
+    /// </summary>
+    /// <param name="reservationId">The ID of the reservation to retrieve.</param>
+    /// <param name="includeOrders">Flag to include associated orders.</param>
+    /// <returns>The reservation data transfer object.</returns>
+    /// <response code="200">Returns the requested reservation.</response>
+    /// <response code="404">If the reservation with the specified ID is not found.</response>
     [HttpGet("{reservationId}", Name = "GetReservation")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ReservationDto))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetReservation(int reservationId, bool includeOrders = false)
     {
         var reservation = await _reservationRepository.GetReservationAsync(reservationId, includeOrders);
@@ -51,48 +67,65 @@ public class ReservationsController : ControllerBase
         {
             return NotFound("Reservation not found.");
         }
+
         if (includeOrders)
         {
             return Ok(_mapper.Map<ReservationWithOrdersDto>(reservation));
         }
+
         return Ok(_mapper.Map<ReservationDto>(reservation));
     }
-     
-    // GET: api/reservations/customer/{customerId}
+
+    /// <summary>
+    /// Gets all reservations for a specific customer.
+    /// </summary>
+    /// <param name="customerId">The ID of the customer.</param>
+    /// <returns>The list of reservations for the customer.</returns>
+    /// <response code="200">Returns the list of reservations for the customer.</response>
     [HttpGet("customer/{customerId}")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<ReservationDto>))]
     public async Task<ActionResult<IEnumerable<ReservationDto>>> GetReservation(int customerId)
     {
         var reservations = await _reservationRepository.GetReservationsByCustomerIdAsync(customerId);
         return Ok(_mapper.Map<IEnumerable<ReservationDto>>(reservations));
     }
 
-
+    /// <summary>
+    /// Gets all ordered menu items for a specific reservation.
+    /// </summary>
+    /// <param name="reservationId">The ID of the reservation.</param>
+    /// <returns>The list of ordered menu items.</returns>
+    /// <response code="200">Returns the list of ordered menu items.</response>
     [HttpGet("{reservationId}/menu-items")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<MenuItemDto>))]
     public async Task<ActionResult<IEnumerable<MenuItemDto>>> GetOrderedMenuItemsForReservation(int reservationId)
     {
-        var reservationExists = await _reservationRepository.ReservationExistsAsync(reservationId);
-        if (!reservationExists)
-        {
-            return NotFound("Reservation not found.");
-        }
-
         var orderedMenuItems = await _menuItemRepository.GetOrderedMenuItemsByReservationIdAsync(reservationId);
         return Ok(_mapper.Map<IEnumerable<MenuItemDto>>(orderedMenuItems));
     }
 
+    /// <summary>
+    /// Creates a new reservation.
+    /// </summary>
+    /// <param name="reservationForCreation">The data for creating a new reservation.</param>
+    /// <returns>The created reservation.</returns>
+    /// <response code="201">Returns the created reservation.</response>
+    /// <response code="400">If the data is invalid</response>
+    /// <response code="404"> if related entities (customer, restaurant, table) do not exist.</response>
 
-    // POST: api/reservations
     [HttpPost]
+    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(ReservationDto))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> PostReservation(ReservationForCreationOrUpdateDto reservationForCreation)
     {
-
         var customerExists = await _customerRepository.CustomerExistsAsync(reservationForCreation.CustomerId);
         var restaurantExists = await _restaurantRepository.RestaurantExistsAsync(reservationForCreation.RestaurantId);
         var tableExists = await _tableRepository.TableExistsAsync(reservationForCreation.RestaurantId, reservationForCreation.TableId);
 
         if (!customerExists || !restaurantExists || !tableExists)
         {
-            return BadRequest("Invalid customer, restaurant, or table Id.");
+            return NotFound("Invalid customer, restaurant, or table Id.");
         }
 
         var reservationEntity = _mapper.Map<Reservation>(reservationForCreation);
@@ -106,8 +139,19 @@ public class ReservationsController : ControllerBase
             _mapper.Map<ReservationDto>(reservationEntity));
     }
 
-    // PUT: api/reservations/{reservationId}
+    /// <summary>
+    /// Updates an existing reservation.
+    /// </summary>
+    /// <param name="reservationId">The ID of the reservation to update.</param>
+    /// <param name="reservationForUpdate">The data for updating the reservation.</param>
+    /// <returns>No content if successful.</returns>
+    /// <response code="201">Returns the created order.</response>
+    /// <response code="400">If the data is invalid</response>
+    /// <response code="404"> If reservation is not found or if related entities (customer, restaurant, table) do not exist.</response>
     [HttpPut("{reservationId}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult> PutReservation(int reservationId, ReservationForCreationOrUpdateDto reservationForUpdate)
     {
         var reservationEntity = await _reservationRepository.GetReservationAsync(reservationId);
@@ -122,7 +166,7 @@ public class ReservationsController : ControllerBase
 
         if (!customerExists || !restaurantExists || !tableExists)
         {
-            return BadRequest("Invalid customer, restaurant, or table Id.");
+            return NotFound("Invalid customer, restaurant, or table Id.");
         }
 
         _mapper.Map(reservationForUpdate, reservationEntity);
@@ -132,10 +176,20 @@ public class ReservationsController : ControllerBase
         return NoContent();
     }
 
-    // PATCH: api/reservations/{reservationId}
+    /// <summary>
+    /// Patches an existing reservation.
+    /// </summary>
+    /// <param name="reservationId">The ID of the reservation to patch.</param>
+    /// <param name="patchDocument">The JSON patch document for updating the reservation.</param>
+    /// <returns>No content if successful.</returns>
+    /// <response code="204">No content if successful.</response>
+    /// <response code="400">If the data is invalid</response>
+    /// <response code="404"> If reservation is not found or if related entities (customer, restaurant, table) do not exist.</response>    [HttpPatch("{reservationId}")]
     [HttpPatch("{reservationId}")]
-    public async Task<ActionResult> PatchReservation(int reservationId,
-        JsonPatchDocument<ReservationForCreationOrUpdateDto> patchDocument)
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult> PatchReservation(int reservationId, JsonPatchDocument<ReservationForCreationOrUpdateDto> patchDocument)
     {
         var reservationEntity = await _reservationRepository.GetReservationAsync(reservationId);
         if (reservationEntity == null)
@@ -153,7 +207,7 @@ public class ReservationsController : ControllerBase
 
         if (!customerExists || !restaurantExists || !tableExists)
         {
-            return BadRequest("Invalid customer, restaurant, or table Id.");
+            return NotFound("Invalid customer, restaurant, or table Id.");
         }
 
         if (!ModelState.IsValid || !TryValidateModel(reservationToPatch))
@@ -168,8 +222,18 @@ public class ReservationsController : ControllerBase
         return NoContent();
     }
 
-    // DELETE: api/reservations/{reservationId}
+    /// <summary>
+    /// Deletes an existing reservation.
+    /// </summary>
+    /// <param name="reservationId">The ID of the reservation to delete.</param>
+    /// <returns>No content if successful.</returns>
+    /// <response code="204">No content if successful.</response>
+    /// <response code="400">If the reservation cannot be deleted.</response>
+    /// <response code="404"> If reservation is not found.</response>
     [HttpDelete("{reservationId}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> DeleteReservation(int reservationId)
     {
         var reservationEntity = await _reservationRepository.GetReservationAsync(reservationId);
@@ -185,8 +249,9 @@ public class ReservationsController : ControllerBase
         }
         catch (Exception)
         {
-            return BadRequest("Cannot delete the reservation, Some orders are attached to it."); 
+            return BadRequest("Cannot delete the reservation, Some orders are attached to it.");
         }
+
         return NoContent();
     }
 }
