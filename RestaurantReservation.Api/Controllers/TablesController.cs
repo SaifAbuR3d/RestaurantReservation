@@ -34,7 +34,7 @@ public class TablesController : ControllerBase
         var restaurantExists = await _restaurantRepository.RestaurantExistsAsync(restaurantId);
         if (!restaurantExists)
         {
-            return NotFound($"Restaurant not found");
+            return NotFound("Restaurant not found");
         }
 
         var tables = await _tablesRepository.GetTablesInRestaurantAsync(restaurantId);
@@ -120,18 +120,13 @@ public class TablesController : ControllerBase
         var tableEntity = await _tablesRepository.GetTableAsync(restaurantId, tableId);
         if (tableEntity == null)
         {
-            return NotFound("Table not found");
+            return NotFound("Table not found.");
         }
 
         var tableToPatch = _mapper.Map<TableForCreationOrUpdateDto>(tableEntity);
         patchDocument.ApplyTo(tableToPatch, ModelState);
 
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-
-        if (!TryValidateModel(tableToPatch))
+        if (!ModelState.IsValid || !TryValidateModel(tableToPatch))
         {
             return BadRequest(ModelState);
         }
@@ -150,21 +145,21 @@ public class TablesController : ControllerBase
         var restaurantExists = await _restaurantRepository.RestaurantExistsAsync(restaurantId);
         if (!restaurantExists)
         {
-            return NotFound("Restaurant not found");
+            return NotFound("Restaurant not found.");
         }
 
         var tableEntity = await _tablesRepository.GetTableAsync(restaurantId, tableId);
         if (tableEntity == null)
         {
-            return NotFound("Table not found");
+            return NotFound("Table not found.");
         }
         try
         {
             _tablesRepository.DeleteTable(tableEntity);
             await _tablesRepository.SaveChangesAsync();
-        } catch (Exception ex)
+        } catch (Exception)
         {
-            return BadRequest("Cannot delete table, there is reservations depends on it");
+            return BadRequest("Cannot delete the table, some reservations attached to it.");
         }
         return NoContent();
     }

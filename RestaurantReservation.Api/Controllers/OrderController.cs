@@ -37,7 +37,7 @@ public class OrdersController : ControllerBase
         var order = await _orderRepository.GetOrderAsync(reservationId, orderId);
         if (order == null)
         {
-            return NotFound();
+            return NotFound("Order not found.");
         }
 
         return Ok(_mapper.Map<OrderDto>(order));
@@ -64,7 +64,7 @@ public class OrdersController : ControllerBase
         var orderEntity = await _orderRepository.GetOrderAsync(reservationId, orderId);
         if (orderEntity == null)
         {
-            return NotFound();
+            return NotFound("Order not found.");
         }
 
         _mapper.Map(orderForUpdate, orderEntity);
@@ -81,18 +81,13 @@ public class OrdersController : ControllerBase
         var orderEntity = await _orderRepository.GetOrderAsync(reservationId, orderId);
         if (orderEntity == null)
         {
-            return NotFound();
+            return NotFound("Order not found.");
         }
 
         var orderToPatch = _mapper.Map<OrderForUpdateDto>(orderEntity);
         patchDocument.ApplyTo(orderToPatch, ModelState);
 
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-
-        if (!TryValidateModel(orderToPatch))
+        if (!ModelState.IsValid || !TryValidateModel(orderToPatch))
         {
             return BadRequest(ModelState);
         }
@@ -111,12 +106,18 @@ public class OrdersController : ControllerBase
         var orderEntity = await _orderRepository.GetOrderAsync(reservationId, orderId);
         if (orderEntity == null)
         {
-            return NotFound();
+            return NotFound("Order not found.");
         }
 
-        _orderRepository.DeleteOrder(orderEntity);
-        await _orderRepository.SaveChangesAsync();
-
+        try
+        {
+            _orderRepository.DeleteOrder(orderEntity);
+            await _orderRepository.SaveChangesAsync();
+        }
+        catch (Exception)
+        {
+            return BadRequest("Cannot delete the order, some order items are attached to it.");
+        }
         return NoContent();
     }
 }

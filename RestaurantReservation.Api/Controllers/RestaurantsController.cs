@@ -36,14 +36,14 @@ namespace RestaurantReservation.Api.Controllers
         {
             if (includeMenuItems && includeEmployees)
             {
-                return BadRequest();
+                return BadRequest("Cannot include both employees and menuItems, choose at most one");
             }
 
             var restaurant = await _restaurantRepository.GetRestaurantAsync(id, includeEmployees, includeMenuItems);
 
             if (restaurant == null) 
             {
-                return NotFound();
+                return NotFound("Restaurant not found.");
             }
 
             if (includeEmployees)
@@ -69,10 +69,7 @@ namespace RestaurantReservation.Api.Controllers
             await _restaurantRepository.SaveChangesAsync();
 
             return CreatedAtRoute("GetRestaurant",
-                new
-                {
-                    id = finalRestaurant.RestaurantId,
-                },
+                new{ id = finalRestaurant.RestaurantId},
                 _mapper.Map<RestaurantDto>(finalRestaurant));
         }
 
@@ -84,12 +81,11 @@ namespace RestaurantReservation.Api.Controllers
             var restaurantEntity = await _restaurantRepository.GetRestaurantAsync(id);
             if (restaurantEntity == null)
             {
-                return NotFound();
+                return NotFound("Restaurant not found.");
             }
 
             _mapper.Map(restaurant, restaurantEntity);
 
-            // now we have updated entity
             await _restaurantRepository.SaveChangesAsync();
 
             return NoContent();
@@ -103,21 +99,16 @@ namespace RestaurantReservation.Api.Controllers
             var restaurantEntity = await _restaurantRepository.GetRestaurantAsync(id);
             if (restaurantEntity == null)
             {
-                return NotFound();
+                return NotFound("Restaurant not found.");
             }
 
             var restaurantToPatch = _mapper.Map<RestaurantIsolatedDto>(restaurantEntity);
 
             patchDocument.ApplyTo(restaurantToPatch, ModelState);
 
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid || !TryValidateModel(restaurantToPatch))
             {
-                return BadRequest();
-            }
-
-            if (!TryValidateModel(restaurantToPatch))
-            {
-                return BadRequest();
+                return BadRequest(ModelState);
             }
 
             _mapper.Map(restaurantToPatch, restaurantEntity);
@@ -136,12 +127,18 @@ namespace RestaurantReservation.Api.Controllers
             var restaurantEntity = await _restaurantRepository.GetRestaurantAsync(id);
             if (restaurantEntity == null)
             {
-                return NotFound();
+                return NotFound("Restaurant not found.");
             }
 
-            _restaurantRepository.DeleteRestaurant(restaurantEntity);
-            await _restaurantRepository.SaveChangesAsync();
-
+            try
+            {
+                _restaurantRepository.DeleteRestaurant(restaurantEntity);
+                await _restaurantRepository.SaveChangesAsync();
+            }
+            catch (Exception) 
+            {
+                return BadRequest("Cannot delete the restaurant.");
+            }
             return NoContent();
         }
 

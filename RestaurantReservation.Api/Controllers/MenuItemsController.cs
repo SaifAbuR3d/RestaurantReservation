@@ -176,7 +176,7 @@ namespace RestaurantReservation.Api.Controllers
             }
             catch (Exception)
             {
-                return BadRequest("Cannot delete menu item");
+                return BadRequest("Cannot delete the menu item, some order items are attached to it.");
             }
             return NoContent();
         }

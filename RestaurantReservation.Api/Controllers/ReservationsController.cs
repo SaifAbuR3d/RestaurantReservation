@@ -46,7 +46,7 @@ public class ReservationsController : ControllerBase
         var reservation = await _reservationRepository.GetReservationAsync(reservationId, includeOrders);
         if (reservation == null)
         {
-            return NotFound("Reservation not found");
+            return NotFound("Reservation not found.");
         }
         if (includeOrders)
         {
@@ -66,7 +66,7 @@ public class ReservationsController : ControllerBase
 
         if (!customerExists || !restaurantExists || !tableExists)
         {
-            return BadRequest("Invalid customer, restaurant, or table Id");
+            return BadRequest("Invalid customer, restaurant, or table Id.");
         }
 
         var reservationEntity = _mapper.Map<Reservation>(reservationForCreation);
@@ -87,7 +87,7 @@ public class ReservationsController : ControllerBase
         var reservationEntity = await _reservationRepository.GetReservationAsync(reservationId);
         if (reservationEntity == null)
         {
-            return NotFound("Reservation not found");
+            return NotFound("Reservation not found.");
         }
 
         var customerExists = await _customerRepository.CustomerExistsAsync(reservationForUpdate.CustomerId);
@@ -96,7 +96,7 @@ public class ReservationsController : ControllerBase
 
         if (!customerExists || !restaurantExists || !tableExists)
         {
-            return BadRequest("Invalid customer, restaurant, or table Id");
+            return BadRequest("Invalid customer, restaurant, or table Id.");
         }
 
         _mapper.Map(reservationForUpdate, reservationEntity);
@@ -114,7 +114,7 @@ public class ReservationsController : ControllerBase
         var reservationEntity = await _reservationRepository.GetReservationAsync(reservationId);
         if (reservationEntity == null)
         {
-            return NotFound("Reservation not found");
+            return NotFound("Reservation not found.");
         }
 
         var reservationToPatch = _mapper.Map<ReservationForCreationOrUpdateDto>(reservationEntity);
@@ -127,15 +127,10 @@ public class ReservationsController : ControllerBase
 
         if (!customerExists || !restaurantExists || !tableExists)
         {
-            return BadRequest("Invalid customer, restaurant, or table Id");
+            return BadRequest("Invalid customer, restaurant, or table Id.");
         }
 
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-
-        if (!TryValidateModel(reservationToPatch))
+        if (!ModelState.IsValid || !TryValidateModel(reservationToPatch))
         {
             return BadRequest(ModelState);
         }
@@ -154,7 +149,7 @@ public class ReservationsController : ControllerBase
         var reservationEntity = await _reservationRepository.GetReservationAsync(reservationId);
         if (reservationEntity == null)
         {
-            return NotFound("Reservation not found");
+            return NotFound("Reservation not found.");
         }
 
         try
@@ -164,7 +159,7 @@ public class ReservationsController : ControllerBase
         }
         catch (Exception)
         {
-            return BadRequest("Cannot delete reservation, Some orders are attached to it"); 
+            return BadRequest("Cannot delete the reservation, Some orders are attached to it."); 
         }
         return NoContent();
     }

@@ -20,108 +20,95 @@ public class CustomersController : ControllerBase
         _mapper = mapper;
     }
 
-    // GET: api/Customers
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<CustomerWithoutReservationsDto>>> GetCustomers()
+    public async Task<ActionResult<IEnumerable<CustomerDto>>> GetCustomers()
     {
         var customers = await _customerRepository.GetAllCustomersAsync();
-        return Ok(_mapper.Map<IEnumerable<CustomerWithoutReservationsDto>>(customers));
+        return Ok(_mapper.Map<IEnumerable<CustomerDto>>(customers));
     }
 
-    // GET: api/Customers/5
-    [HttpGet("{id}", Name = "GetCustomer")]
-    public async Task<IActionResult> GetCustomer(int id, bool includeReservations = false)
+    [HttpGet("{customerId}", Name = "GetCustomer")]
+    public async Task<ActionResult<CustomerDto>> GetCustomer(int customerId, bool includeReservations = false)
     {
-        var customer = await _customerRepository.GetCustomerAsync(id, includeReservations);
+        var customer = await _customerRepository.GetCustomerAsync(customerId, includeReservations);
         if (customer == null)
         {
-            return NotFound();
+            return NotFound($"Customer with ID {customerId} not found.");
         }
 
-        if (includeReservations)
-        {
-            return Ok(_mapper.Map<CustomerDto>(customer));
-        }
-
-        return Ok(_mapper.Map<CustomerWithoutReservationsDto>(customer));
+        return includeReservations
+            ? Ok(_mapper.Map<CustomerDto>(customer))
+            : Ok(_mapper.Map<CustomerWithoutReservationsDto>(customer));
     }
 
-    // POST: api/Customers
     [HttpPost]
-    public async Task<IActionResult> PostCustomer(CustomerForCreationDto customer)
+    public async Task<ActionResult<CustomerDto>> PostCustomer(CustomerForCreationDto customer)
     {
-        var finalCustomer = _mapper.Map<Customer>(customer);
-
-        _customerRepository.CreateCustomer(finalCustomer);
-
+        var customerEntity = _mapper.Map<Customer>(customer);
+        _customerRepository.CreateCustomer(customerEntity);
         await _customerRepository.SaveChangesAsync();
 
         return CreatedAtRoute("GetCustomer",
-            new {id = finalCustomer.CustomerId},
-            _mapper.Map<CustomerWithoutReservationsDto>(finalCustomer));
+            new { customerId = customerEntity.CustomerId },
+            _mapper.Map<CustomerDto>(customerEntity));
     }
 
-    // PUT: api/Customers/5
-    [HttpPut("{id}")]
-    public async Task<ActionResult> PutCustomer(int id, CustomerForUpdateDto customer)
+    [HttpPut("{customerId}")]
+    public async Task<ActionResult> PutCustomer(int customerId, CustomerForUpdateDto customer)
     {
-
-        var customerEntity = await _customerRepository.GetCustomerAsync(id);
+        var customerEntity = await _customerRepository.GetCustomerAsync(customerId);
         if (customerEntity == null)
         {
-            return NotFound();
+            return NotFound($"Customer not found.");
         }
 
         _mapper.Map(customer, customerEntity);
-
-        // now we have updated entity
         await _customerRepository.SaveChangesAsync();
 
         return NoContent();
     }
 
-    // PATCH: api/Customers/5
-    [HttpPatch("{id}")]
-    public async Task<ActionResult> PatchCustomer(int id,
-        JsonPatchDocument<CustomerForUpdateDto> patchDocument)
+    [HttpPatch("{customerId}")]
+    public async Task<ActionResult> PatchCustomer(int customerId, JsonPatchDocument<CustomerForUpdateDto> patchDocument)
     {
-        var customerEntity = await _customerRepository.GetCustomerAsync(id);
+        var customerEntity = await _customerRepository.GetCustomerAsync(customerId);
         if (customerEntity == null)
         {
-            return NotFound();
+            return NotFound($"Customer not found.");
         }
 
         var customerToPatch = _mapper.Map<CustomerForUpdateDto>(customerEntity);
-
         patchDocument.ApplyTo(customerToPatch, ModelState);
 
-        if (!ModelState.IsValid)
+        if (!ModelState.IsValid || !TryValidateModel(customerToPatch))
         {
-            return BadRequest();
+            return BadRequest(ModelState);
         }
-        
-        _mapper.Map(customerToPatch, customerEntity);
 
+        _mapper.Map(customerToPatch, customerEntity);
         await _customerRepository.SaveChangesAsync();
 
         return NoContent();
     }
 
-
-    // DELETE: api/Customers/5
-    [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteCustomer(int id)
+    [HttpDelete("{customerId}")]
+    public async Task<IActionResult> DeleteCustomer(int customerId)
     {
-        var customerEntity = await _customerRepository.GetCustomerAsync(id);
+        var customerEntity = await _customerRepository.GetCustomerAsync(customerId);
         if (customerEntity == null)
         {
-            return NotFound();
+            return NotFound("Customer not found.");
         }
 
-        _customerRepository.DeleteCustomer(customerEntity);
-        await _customerRepository.SaveChangesAsync();
-
+        try
+        {
+            _customerRepository.DeleteCustomer(customerEntity);
+            await _customerRepository.SaveChangesAsync();
+        }
+        catch (Exception)
+        {
+            return BadRequest("Cannot delete the customer, some reservations are attached to him");
+        }
         return NoContent();
     }
-
 }
