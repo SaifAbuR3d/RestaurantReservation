@@ -44,6 +44,14 @@ public class EmployeesController : ControllerBase
         return Ok(includeOrders ? _mapper.Map<EmployeeWithOrdersDto>(employee) : _mapper.Map<EmployeeDto>(employee));
     }
 
+    // GET: api/employees
+    [HttpGet("managers")]
+    public async Task<ActionResult<IEnumerable<EmployeeDto>>> GetManagers()
+    {
+        var employees = await _employeeRepository.GetManagers();
+        return Ok(_mapper.Map<IEnumerable<EmployeeDto>>(employees));
+    }
+
     // POST: api/employees
     [HttpPost]
     public async Task<IActionResult> PostEmployee(EmployeeForCreationOrUpdate employeeForCreation)

@@ -9,6 +9,7 @@ namespace RestaurantReservation.Db.Repositories
         Task<bool> EmployeeExistsAsync(int id);
         Task<IEnumerable<Employee>> GetAllEmployeesAsync();
         Task<Employee?> GetEmployeeAsync(int employeeId, bool includeOrders = false);
+        Task<IEnumerable<Employee>> GetManagers();
         Task<bool> SaveChangesAsync();
     }
 }

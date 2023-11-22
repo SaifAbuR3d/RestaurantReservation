@@ -34,6 +34,12 @@ public class EmployeeRepository : IEmployeeRepository
             .FirstOrDefaultAsync(e => e.EmployeeId == employeeId);
     }
 
+    public async Task<IEnumerable<Employee>> GetManagers()
+    {
+        return await _context.Employees
+            .Where(e => e.Position == "Manager")
+            .ToListAsync();
+    }
     public Employee CreateEmployee(Employee employee)
     {
         _context.Employees.Add(employee);
