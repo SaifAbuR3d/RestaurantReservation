@@ -54,6 +54,15 @@ public class ReservationsController : ControllerBase
         }
         return Ok(_mapper.Map<ReservationDto>(reservation));
     }
+     
+    // GET: api/reservations/customer/{customerId}
+    [HttpGet("customer/{customerId}")]
+    public async Task<ActionResult<IEnumerable<ReservationDto>>> GetReservation(int customerId)
+    {
+        var reservations = await _reservationRepository.GetReservationsByCustomerIdAsync(customerId);
+        return Ok(_mapper.Map<IEnumerable<ReservationDto>>(reservations));
+    }
+
 
     // POST: api/reservations
     [HttpPost]

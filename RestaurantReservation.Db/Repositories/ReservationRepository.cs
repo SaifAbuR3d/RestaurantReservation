@@ -36,6 +36,12 @@ public class ReservationRepository : IReservationRepository
                      .FirstOrDefaultAsync(r => r.ReservationId == reservationId);
     }
 
+    public async Task<IEnumerable<Reservation>> GetReservationsByCustomerIdAsync(int customerID)
+    {
+        return await _context.Reservations
+            .Where(r => r.CustomerId == customerID)
+            .ToListAsync();
+    }
     public Reservation CreateReservation(Reservation reservation)
     {
         _context.Reservations.Add(reservation);
