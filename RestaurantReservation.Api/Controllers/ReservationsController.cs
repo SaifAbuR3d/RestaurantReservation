@@ -15,6 +15,7 @@ public class ReservationsController : ControllerBase
     private readonly ICustomerRepository _customerRepository;
     private readonly IRestaurantRepository _restaurantRepository;
     private readonly ITableRepository _tableRepository;
+    private readonly IMenuItemRepository _menuItemRepository;
     private readonly IMapper _mapper;
 
     public ReservationsController(
@@ -22,12 +23,14 @@ public class ReservationsController : ControllerBase
         ICustomerRepository customerRepository,
         IRestaurantRepository restaurantRepository,
         ITableRepository tableRepository,
+        IMenuItemRepository menuItemRepository,
         IMapper mapper)
     {
         _reservationRepository = reservationRepository;
         _customerRepository = customerRepository;
         _restaurantRepository = restaurantRepository;
         _tableRepository = tableRepository;
+        _menuItemRepository = menuItemRepository;
         _mapper = mapper;
     }
 
@@ -61,6 +64,20 @@ public class ReservationsController : ControllerBase
     {
         var reservations = await _reservationRepository.GetReservationsByCustomerIdAsync(customerId);
         return Ok(_mapper.Map<IEnumerable<ReservationDto>>(reservations));
+    }
+
+
+    [HttpGet("{reservationId}/menu-items")]
+    public async Task<ActionResult<IEnumerable<MenuItemDto>>> GetOrderedMenuItemsForReservation(int reservationId)
+    {
+        var reservationExists = await _reservationRepository.ReservationExistsAsync(reservationId);
+        if (!reservationExists)
+        {
+            return NotFound("Reservation not found.");
+        }
+
+        var orderedMenuItems = await _menuItemRepository.GetOrderedMenuItemsByReservationIdAsync(reservationId);
+        return Ok(_mapper.Map<IEnumerable<MenuItemDto>>(orderedMenuItems));
     }
 
 

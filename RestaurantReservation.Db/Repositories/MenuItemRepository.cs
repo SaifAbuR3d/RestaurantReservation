@@ -31,6 +31,14 @@ public class MenuItemRepository : IMenuItemRepository
                                    && m.MenuItemId == menuItemId);
     }
 
+    public async Task<IEnumerable<MenuItem>> GetOrderedMenuItemsByReservationIdAsync(int reservationId)
+    {
+        return await _context.OrderItems
+            .Where(oi => oi.Order.ReservationId == reservationId)
+            .Select(oi => oi.MenuItem)
+            .ToListAsync();
+    }
+
     public MenuItem CreateMenuItem(int restaurantId, MenuItem menuItem)
     {
         _context.MenuItems.Add(menuItem);
