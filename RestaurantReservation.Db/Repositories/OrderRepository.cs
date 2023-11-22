@@ -21,8 +21,10 @@ public class OrderRepository : IOrderRepository
     {
         return await _context.Orders
             .Include(o => o.OrderItems)
+            .ThenInclude(o => o.MenuItem)
             .Where(o => o.ReservationId == reservationId)
             .ToListAsync();
+
     }
 
     public async Task<Order?> GetOrderAsync(int reservationId, int orderId)

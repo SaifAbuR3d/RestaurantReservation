@@ -38,7 +38,7 @@ public class OrdersController : ControllerBase
         }
 
         var orders = await _orderRepository.GetOrdersForReservationAsync(reservationId);
-        return Ok(_mapper.Map<IEnumerable<OrderDto>>(orders));
+        return Ok(_mapper.Map<IEnumerable<OrderWithMenuItemsDto>>(orders));
     }
 
     // GET: api/reservations/{reservationId}/orders/{orderId}
