@@ -22,6 +22,16 @@ namespace RestaurantReservation.Api.Controllers
             _mapper = mapper;
         }
 
+        private async Task<Employee?> GetEmployeeAsync(int employeeId)
+        {
+            return await _employeeRepository.GetEmployeeAsync(employeeId);
+        }
+
+        private async Task<bool> ValidateRestaurantAsync(int restaurantId)
+        {
+            return await _restaurantRepository.RestaurantExistsAsync(restaurantId);
+        }
+
         // GET: api/employees
         [HttpGet]
         public async Task<ActionResult<IEnumerable<EmployeeDto>>> GetEmployees()
@@ -34,16 +44,13 @@ namespace RestaurantReservation.Api.Controllers
         [HttpGet("{employeeId}", Name = "GetEmployee")]
         public async Task<IActionResult> GetEmployee(int employeeId, bool includeOrders = false)
         {
-            var employee = await _employeeRepository.GetEmployeeAsync(employeeId, includeOrders);
+            var employee = await GetEmployeeAsync(employeeId);
             if (employee == null)
             {
                 return NotFound("Employee not found");
             }
-            if (includeOrders)
-            {
-                return Ok(_mapper.Map<EmployeeWithOrdersDto>(employee)); 
-            }
-            return Ok(_mapper.Map<EmployeeDto>(employee));
+
+            return Ok(includeOrders ? _mapper.Map<EmployeeWithOrdersDto>(employee) : _mapper.Map<EmployeeDto>(employee));
         }
 
         // POST: api/employees
@@ -64,13 +71,13 @@ namespace RestaurantReservation.Api.Controllers
         [HttpPut("{employeeId}")]
         public async Task<ActionResult> PutEmployee(int employeeId, EmployeeForCreationOrUpdate employeeForUpdate)
         {
-            var employeeEntity = await _employeeRepository.GetEmployeeAsync(employeeId);
+            var employeeEntity = await GetEmployeeAsync(employeeId);
             if (employeeEntity == null)
             {
                 return NotFound("Employee not found");
             }
-            
-            if(! await _restaurantRepository.RestaurantExistsAsync(employeeForUpdate.RestaurantId))
+
+            if (!await ValidateRestaurantAsync(employeeForUpdate.RestaurantId))
             {
                 return NotFound("Restaurant not found");
             }
@@ -86,26 +93,22 @@ namespace RestaurantReservation.Api.Controllers
         [HttpPatch("{employeeId}")]
         public async Task<ActionResult> PatchEmployee(int employeeId, JsonPatchDocument<EmployeeForCreationOrUpdate> patchDocument)
         {
-            var employeeEntity = await _employeeRepository.GetEmployeeAsync(employeeId);
+            var employeeEntity = await GetEmployeeAsync(employeeId);
             if (employeeEntity == null)
             {
                 return NotFound("Employee not found");
             }
+
             var employeeToPatch = _mapper.Map<EmployeeForCreationOrUpdate>(employeeEntity);
 
             patchDocument.ApplyTo(employeeToPatch, ModelState);
 
-            if (!await _restaurantRepository.RestaurantExistsAsync(employeeToPatch.RestaurantId))
+            if (!await ValidateRestaurantAsync(employeeToPatch.RestaurantId))
             {
                 return NotFound("Restaurant not found");
             }
 
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (!TryValidateModel(employeeToPatch))
+            if (!ModelState.IsValid || !TryValidateModel(employeeToPatch))
             {
                 return BadRequest(ModelState);
             }
@@ -121,7 +124,7 @@ namespace RestaurantReservation.Api.Controllers
         [HttpDelete("{employeeId}")]
         public async Task<IActionResult> DeleteEmployee(int employeeId)
         {
-            var employeeEntity = await _employeeRepository.GetEmployeeAsync(employeeId);
+            var employeeEntity = await GetEmployeeAsync(employeeId);
             if (employeeEntity == null)
             {
                 return NotFound("Employee not found");
@@ -134,7 +137,7 @@ namespace RestaurantReservation.Api.Controllers
             }
             catch (Exception)
             {
-                return BadRequest("Cannot delete employee");
+                return BadRequest("Cannot delete employee attached to orders");
             }
 
             return NoContent();

@@ -13,6 +13,7 @@ namespace RestaurantReservation.Api.Validators
 
             RuleFor(x => x.LastName).ValidName();
 
+            // rules for 'position' property are similar to names
             RuleFor(x => x.Position).ValidName();
         }
     }
