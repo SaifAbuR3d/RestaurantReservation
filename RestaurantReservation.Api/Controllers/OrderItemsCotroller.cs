@@ -66,7 +66,7 @@ namespace RestaurantReservation.Api.Controllers
 
         // POST: api/reservations/{reservationId}/orders/{orderId}/orderitems
         [HttpPost]
-        public async Task<ActionResult<OrderItemDto>> PostOrderItem(int reservationId, int orderId, OrderItemForCreationOrUpdate orderItemForCreation)
+        public async Task<ActionResult<OrderItemDto>> PostOrderItem(int reservationId, int orderId, OrderItemForCreationOrUpdateDto orderItemForCreation)
         {
             var reservationExists = await _reservationRepository.ReservationExistsAsync(reservationId);
             var orderExists = await _orderRepository.OrderExistsAsync(reservationId, orderId);
@@ -88,7 +88,7 @@ namespace RestaurantReservation.Api.Controllers
 
         // PUT: api/reservations/{reservationId}/orders/{orderId}/orderitems/{orderItemId}
         [HttpPut("{orderItemId}")]
-        public async Task<ActionResult> PutOrderItem(int reservationId, int orderId, int orderItemId, OrderItemForCreationOrUpdate orderItemForUpdate)
+        public async Task<ActionResult> PutOrderItem(int reservationId, int orderId, int orderItemId, OrderItemForCreationOrUpdateDto orderItemForUpdate)
         {
             var reservationExists = await _reservationRepository.ReservationExistsAsync(reservationId);
             var orderExists = await _orderRepository.OrderExistsAsync(reservationId, orderId);
@@ -114,7 +114,7 @@ namespace RestaurantReservation.Api.Controllers
         // PATCH: api/reservations/{reservationId}/orders/{orderId}/orderitems/{orderItemId}
         [HttpPatch("{orderItemId}")]
         public async Task<ActionResult> PatchOrderItem(int reservationId, int orderId,
-            int orderItemId, JsonPatchDocument<OrderItemForCreationOrUpdate> patchDocument)
+            int orderItemId, JsonPatchDocument<OrderItemForCreationOrUpdateDto> patchDocument)
         {
             var reservationExists = await _reservationRepository.ReservationExistsAsync(reservationId);
             var orderExists = await _orderRepository.OrderExistsAsync(reservationId, orderId);
@@ -130,7 +130,7 @@ namespace RestaurantReservation.Api.Controllers
                 return NotFound();
             }
 
-            var orderItemToPatch = _mapper.Map<OrderItemForCreationOrUpdate>(orderItemEntity);
+            var orderItemToPatch = _mapper.Map<OrderItemForCreationOrUpdateDto>(orderItemEntity);
             patchDocument.ApplyTo(orderItemToPatch, ModelState);
 
             if (!ModelState.IsValid)

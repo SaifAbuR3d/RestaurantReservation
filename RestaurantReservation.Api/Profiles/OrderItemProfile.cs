@@ -9,7 +9,7 @@ public class OrderItemProfile:Profile
     public OrderItemProfile()
     {
         CreateMap<OrderItem, OrderItemDto>();
-        CreateMap<OrderItemForCreationOrUpdate, OrderItem>();
-        CreateMap<OrderItem, OrderItemForCreationOrUpdate>(); 
+        CreateMap<OrderItemForCreationOrUpdateDto, OrderItem>();
+        CreateMap<OrderItem, OrderItemForCreationOrUpdateDto>(); 
     }
 }
