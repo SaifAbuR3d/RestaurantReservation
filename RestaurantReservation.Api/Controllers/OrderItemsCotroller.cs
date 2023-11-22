@@ -15,14 +15,19 @@ public class OrderItemsController : ControllerBase
     private readonly IMapper _mapper;
     private readonly IReservationRepository _reservationRepository;
     private readonly IOrderRepository _orderRepository;
+    private readonly IRestaurantRepository _restaurantRepository;
 
-    public OrderItemsController(IOrderItemRepository orderItemRepository, IMapper mapper,
-        IReservationRepository reservationRepository, IOrderRepository orderRepository)
+    public OrderItemsController(IOrderItemRepository orderItemRepository,
+        IReservationRepository reservationRepository,
+        IOrderRepository orderRepository, 
+        IRestaurantRepository restaurantRepository, 
+        IMapper mapper)
     {
         _orderItemRepository = orderItemRepository;
         _mapper = mapper;
         _reservationRepository = reservationRepository;
         _orderRepository = orderRepository;
+        _restaurantRepository = restaurantRepository;
     }
 
     // GET: api/reservations/{reservationId}/orders/{orderId}/orderitems
@@ -74,6 +79,14 @@ public class OrderItemsController : ControllerBase
             return BadRequest("Invalid reservation or order Id");
         }
 
+        var restaurantForReservation = _restaurantRepository.GetRestaurantIdByReservationIdAsync(reservationId);
+        var restaurantForMenuItem = _restaurantRepository.GetRestaurantIdByMenuItemIdAsync(orderItemForCreation.MenuItemId);
+
+        if (restaurantForMenuItem != restaurantForReservation)
+        {
+            return BadRequest("Menu Item not found");
+        }
+
         var orderItemEntity = _mapper.Map<OrderItem>(orderItemForCreation);
         _orderItemRepository.AddOrderItemToOrder(orderId, orderItemEntity);
 
@@ -100,6 +113,14 @@ public class OrderItemsController : ControllerBase
         if (orderItemEntity == null)
         {
             return NotFound("OrderItem not found.");
+        }
+
+        var restaurantForReservation = _restaurantRepository.GetRestaurantIdByReservationIdAsync(reservationId);
+        var restaurantForMenuItem = _restaurantRepository.GetRestaurantIdByMenuItemIdAsync(orderItemForUpdate.MenuItemId);
+
+        if (restaurantForMenuItem != restaurantForReservation)
+        {
+            return BadRequest("Menu Item not found");
         }
 
         _mapper.Map(orderItemForUpdate, orderItemEntity);
@@ -134,6 +155,14 @@ public class OrderItemsController : ControllerBase
         if (!ModelState.IsValid || !TryValidateModel(orderItemToPatch))
         {
             return BadRequest(ModelState);
+        }
+
+        var restaurantForReservation = _restaurantRepository.GetRestaurantIdByReservationIdAsync(reservationId);
+        var restaurantForMenuItem = _restaurantRepository.GetRestaurantIdByMenuItemIdAsync(orderItemToPatch.MenuItemId);
+
+        if (restaurantForMenuItem != restaurantForReservation)
+        {
+            return BadRequest("Menu Item not found");
         }
 
         _mapper.Map(orderItemToPatch, orderItemEntity);

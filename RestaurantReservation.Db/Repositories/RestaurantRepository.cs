@@ -52,6 +52,31 @@ public class RestaurantRepository : IRestaurantRepository
         _context.Restaurants.Remove(restaurant);
     }
 
+    public async Task<int?> GetRestaurantIdByMenuItemIdAsync(int menuItemId)
+    {
+        return await _context.MenuItems
+            .Where(mi => mi.MenuItemId == menuItemId)
+            .Select(mi => mi.RestaurantId)
+            .FirstOrDefaultAsync();
+    }
+
+    public async Task<int?> GetRestaurantIdByReservationIdAsync(int reservationId)
+    {
+        return await _context.Reservations
+            .Where(r => r.ReservationId == reservationId)
+            .Select(r => r.RestaurantId)
+            .FirstOrDefaultAsync();
+    }
+
+    public async Task<int?> GetRestaurantIdByEmployeeIdAsync(int employeeId)
+    {
+        return await _context.Employees
+            .Where(e => e.EmployeeId == employeeId)
+            .Select(e => e.RestaurantId)
+            .FirstOrDefaultAsync();
+    }
+
+
     public async Task<bool> SaveChangesAsync()
     {
         return (await _context.SaveChangesAsync() >= 0);
