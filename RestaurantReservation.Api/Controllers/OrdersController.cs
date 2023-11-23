@@ -100,8 +100,8 @@ public class OrdersController : ControllerBase
             return NotFound("Reservation not found.");
         }
 
-        var restaurantForReservation = _restaurantRepository.GetRestaurantIdByReservationIdAsync(reservationId);
-        var restaurantForEmployee = _restaurantRepository.GetRestaurantIdByEmployeeIdAsync(orderForCreation.EmployeeId);
+        var restaurantForReservation = await _restaurantRepository.GetRestaurantIdByReservationIdAsync(reservationId);
+        var restaurantForEmployee = await _restaurantRepository.GetRestaurantIdByEmployeeIdAsync(orderForCreation.EmployeeId);
 
         if (restaurantForReservation == null ||
             restaurantForEmployee == null ||
@@ -148,8 +148,8 @@ public class OrdersController : ControllerBase
             return NotFound("Order not found.");
         }
 
-        var restaurantForReservation = _restaurantRepository.GetRestaurantIdByReservationIdAsync(orderForUpdate.ReservationId);
-        var restaurantForEmployee = _restaurantRepository.GetRestaurantIdByEmployeeIdAsync(orderForUpdate.EmployeeId);
+        var restaurantForReservation = await _restaurantRepository.GetRestaurantIdByReservationIdAsync(orderForUpdate.ReservationId);
+        var restaurantForEmployee = await _restaurantRepository.GetRestaurantIdByEmployeeIdAsync(orderForUpdate.EmployeeId);
 
         if (restaurantForReservation == null ||
             restaurantForEmployee == null ||
@@ -202,8 +202,8 @@ public class OrdersController : ControllerBase
             return BadRequest(ModelState);
         }
 
-        var restaurantForReservation = _restaurantRepository.GetRestaurantIdByReservationIdAsync(orderToPatch.ReservationId);
-        var restaurantForEmployee = _restaurantRepository.GetRestaurantIdByEmployeeIdAsync(orderToPatch.EmployeeId);
+        var restaurantForReservation = await _restaurantRepository.GetRestaurantIdByReservationIdAsync(orderToPatch.ReservationId);
+        var restaurantForEmployee = await _restaurantRepository.GetRestaurantIdByEmployeeIdAsync(orderToPatch.EmployeeId);
 
         if (restaurantForReservation == null ||
             restaurantForEmployee == null ||

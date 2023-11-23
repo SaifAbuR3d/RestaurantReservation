@@ -123,7 +123,7 @@ public class OrderItemsController : ControllerBase
         {
             return NotFound("Reservation is not consistent with MenuItem.");
         }
-
+         
         var orderItemEntity = _mapper.Map<OrderItem>(orderItemForCreation);
         _orderItemRepository.AddOrderItemToOrder(orderId, orderItemEntity);
 
@@ -149,7 +149,8 @@ public class OrderItemsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult> PutOrderItem(int reservationId, int orderId, int orderItemId, OrderItemForCreationOrUpdateDto orderItemForUpdate)
+    public async Task<ActionResult> PutOrderItem(int reservationId, int orderId, int orderItemId,
+        OrderItemForCreationOrUpdateDto orderItemForUpdate)
     {
         var reservationExists = await _reservationRepository.ReservationExistsAsync(reservationId);
         var orderExists = await _orderRepository.OrderExistsAsync(reservationId, orderId);

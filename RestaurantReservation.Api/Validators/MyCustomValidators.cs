@@ -36,9 +36,9 @@ public static class MyCustomValidators
         return ruleBuilder
          .NotEmpty().NotNull()
          .GreaterThanOrEqualTo(DateTime.UtcNow)
-         .WithMessage("Reservation Date date should be in the future")
+         .WithMessage("'{PropertyName}' should be in the future")
          .LessThanOrEqualTo(DateTime.UtcNow.AddMonths(1))
-         .WithMessage("Reservation Date date should be at most 1 month from now");
+         .WithMessage("'{PropertyName}' should be at most 1 month from now");
     }
 
 
