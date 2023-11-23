@@ -138,7 +138,7 @@ public class EmployeesController : ControllerBase
         }
 
         var restaurantExists = await _restaurantRepository.RestaurantExistsAsync(employeeForUpdate.RestaurantId);
-        if (restaurantExists)
+        if (!restaurantExists)
         {
             return NotFound("Restaurant not found");
         }
@@ -176,7 +176,7 @@ public class EmployeesController : ControllerBase
         patchDocument.ApplyTo(employeeToPatch, ModelState);
 
         var restaurantExists = await _restaurantRepository.RestaurantExistsAsync(employeeToPatch.RestaurantId);
-        if (restaurantExists)
+        if (!restaurantExists)
         {
             return NotFound("Restaurant not found");
         }
