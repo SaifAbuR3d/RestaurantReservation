@@ -47,6 +47,7 @@ public class OrderItemRepository : IOrderItemRepository
 
     public async Task<bool> SaveChangesAsync(int orderId)
     {
+        await _context.SaveChangesAsync();
         var order = _context.Orders.Find(orderId);
         if (order != null)
         {
