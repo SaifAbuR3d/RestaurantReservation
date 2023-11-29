@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using RestaurantReservation.Domain.Models;
+using RestaurantReservation.Db.Repositories.RepositoryInterface;
+using RestaurantReservation.Domain.Entities;
 
 namespace RestaurantReservation.Db.Repositories;
 
-public class EmployeeRepository
+public class EmployeeRepository : IEmployeeRepository
 {
     private readonly RestaurantReservationDbContext _context;
 
@@ -13,63 +13,70 @@ public class EmployeeRepository
         _context = context;
     }
 
-    public Employee CreateEmployee(Employee employee)
+    public async Task<bool> EmployeeExistsAsync(int id)
     {
-        _context.Employees.Add(employee);
-        _context.SaveChanges();
-        return employee;
+        return await _context.Employees.AnyAsync(e => e.EmployeeId == id);
     }
 
-    public Employee UpdateEmployee(Employee employee)
+    public async Task<IEnumerable<Employee>> GetAllEmployeesAsync()
     {
-        _context.Employees.Update(employee);
-        _context.SaveChanges();
-        return employee;
+        return await _context.Employees.ToListAsync();
     }
 
-    public Employee? UpdateEmployeePosition(int employeeId, string newPosition)
+    public async Task<Employee?> GetEmployeeAsync(int employeeId, bool includeOrders = false)
     {
-        var employee = _context.Employees.Find(employeeId);
-        if (employee != null)
+        if (includeOrders)
         {
-            employee.Position = newPosition;
-            _context.SaveChanges();
+            return await _context.Employees
+                .Include(e => e.Orders)
+                .FirstOrDefaultAsync(e => e.EmployeeId == employeeId);
         }
-        return employee;
+        return await _context.Employees
+            .FirstOrDefaultAsync(e => e.EmployeeId == employeeId);
     }
 
-    public void DeleteEmployee(int employeeId)
+    public async Task<IEnumerable<Employee>> GetManagers()
     {
-        var employee = _context.Employees.Find(employeeId);
-        if (employee != null)
-        {
-            _context.Employees.Remove(employee);
-            _context.SaveChanges();
-        }
-    }
-
-    public List<Employee> ListManagers()
-    {
-        return _context.Employees
+        return await _context.Employees
             .Where(e => e.Position == "Manager")
-            .ToList();
+            .ToListAsync();
     }
 
-    public decimal CalculateAverageOrderAmount(int employeeId)
+    public async Task<decimal?> GetAverageOrderAmountAsync(int employeeId)
     {
-        var employee = _context.Employees
+        var employee = await _context.Employees
             .Include(e => e.Orders)
-            .FirstOrDefault(e => e.EmployeeId == employeeId);
+            .FirstOrDefaultAsync(e => e.EmployeeId == employeeId);
 
         if (employee == null)
         {
-            return -1.0m;
-        }
-        if (employee.Orders.IsNullOrEmpty())
-        {
-            return 0.0m;
+            return null;
         }
 
-        return employee.Orders.Average(o => o.TotalAmount);
+        if (!employee.Orders.Any())
+        {
+            return 0; 
+        }
+
+        var averageOrderAmount = employee.Orders
+            .Average(order => order.TotalAmount);
+
+        return averageOrderAmount;
+    }
+
+    public Employee CreateEmployee(Employee employee)
+    {
+        _context.Employees.Add(employee);
+        return employee;
+    }
+
+    public void DeleteEmployee(Employee employee)
+    {
+        _context.Employees.Remove(employee);
+    }
+
+    public async Task<bool> SaveChangesAsync()
+    {
+        return (await _context.SaveChangesAsync() >= 0);
     }
 }

@@ -1,8 +1,10 @@
-﻿using RestaurantReservation.Domain.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using RestaurantReservation.Db.Repositories.RepositoryInterface;
+using RestaurantReservation.Domain.Entities;
 
 namespace RestaurantReservation.Db.Repositories;
 
-public class TableRepository
+public class TableRepository : ITableRepository
 {
     private readonly RestaurantReservationDbContext _context;
 
@@ -11,38 +13,39 @@ public class TableRepository
         _context = context;
     }
 
-    public Table CreateTable(Table table)
+    public async Task<bool> TableExistsAsync(int restaurantId, int id)
+    {
+        return await _context.Tables
+            .AnyAsync(c => c.RestaurantId == restaurantId
+                        && c.TableId == id);
+    }
+
+    public async Task<IEnumerable<Table>> GetTablesInRestaurantAsync(int restaurantId)
+    {
+        return await _context.Tables.Where(t => t.RestaurantId == restaurantId).ToListAsync();
+    }
+
+    public async Task<Table?> GetTableAsync(int restaurantId, int tableId)
+    {
+        return await _context.Tables.FirstOrDefaultAsync(t => t.RestaurantId == restaurantId
+                                                           && t.TableId == tableId);
+    }
+
+    public Table CreateTable(int restaurantId, Table table)
     {
         _context.Tables.Add(table);
-        _context.SaveChanges();
+        table.RestaurantId = restaurantId;
+
         return table;
     }
 
-    public Table UpdateTable(Table table)
+    public void DeleteTable(Table table)
     {
-        _context.Tables.Update(table);
-        _context.SaveChanges();
-        return table;
+        _context.Tables.Remove(table);
     }
 
-    public Table? UpdateTableDetails(int tableId, int capacity)
+    public async Task<bool> SaveChangesAsync()
     {
-        var table = _context.Tables.Find(tableId);
-        if (table != null)
-        {
-            table.Capacity = capacity;
-            _context.SaveChanges();
-        }
-        return table;
-    }
-
-    public void DeleteTable(int tableId)
-    {
-        var table = _context.Tables.Find(tableId);
-        if (table != null)
-        {
-            _context.Tables.Remove(table);
-            _context.SaveChanges();
-        }
+        return (await _context.SaveChangesAsync() >= 0);
     }
 }

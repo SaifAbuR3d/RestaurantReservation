@@ -1,0 +1,781 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>RestaurantReservation.Api</name>
+    </assembly>
+    <members>
+        <member name="T:RestaurantReservation.Api.Contracts.Models.CustomerForUpdateDto">
+            <summary>
+            Data transfer object for updating customer information.
+            </summary>
+        </member>
+        <member name="P:RestaurantReservation.Api.Contracts.Models.CustomerForUpdateDto.FirstName">
+            <summary>
+            Updated first name of the customer.
+            </summary>
+        </member>
+        <member name="P:RestaurantReservation.Api.Contracts.Models.CustomerForUpdateDto.LastName">
+            <summary>
+            Updated last name of the customer.
+            </summary>
+        </member>
+        <member name="P:RestaurantReservation.Api.Contracts.Models.CustomerForUpdateDto.Email">
+            <summary>
+            Updated email address of the customer.
+            </summary>
+        </member>
+        <member name="P:RestaurantReservation.Api.Contracts.Models.CustomerForUpdateDto.PhoneNumber">
+            <summary>
+            Updated phone number of the customer.
+            </summary>
+        </member>
+        <member name="T:RestaurantReservation.Api.Contracts.Models.EmployeeForCreationOrUpdate">
+            <summary>
+            Data transfer object for creating or updating an employee.
+            </summary>
+        </member>
+        <member name="P:RestaurantReservation.Api.Contracts.Models.EmployeeForCreationOrUpdate.RestaurantId">
+            <summary>
+            ID of the restaurant to which the employee belongs.
+            </summary>
+        </member>
+        <member name="P:RestaurantReservation.Api.Contracts.Models.EmployeeForCreationOrUpdate.FirstName">
+            <summary>
+            First name of the employee.
+            </summary>
+        </member>
+        <member name="P:RestaurantReservation.Api.Contracts.Models.EmployeeForCreationOrUpdate.LastName">
+            <summary>
+            Last name of the employee.
+            </summary>
+        </member>
+        <member name="P:RestaurantReservation.Api.Contracts.Models.EmployeeForCreationOrUpdate.Position">
+            <summary>
+            Position or role of the employee.
+            </summary>
+        </member>
+        <member name="T:RestaurantReservation.Api.Contracts.Models.MenuItemForCreationDto">
+            <summary>
+            Data transfer object for creating a new menu item.
+            </summary>
+        </member>
+        <member name="P:RestaurantReservation.Api.Contracts.Models.MenuItemForCreationDto.Name">
+            <summary>
+            Name of the menu item.
+            </summary>
+        </member>
+        <member name="P:RestaurantReservation.Api.Contracts.Models.MenuItemForCreationDto.Description">
+            <summary>
+            Description of the menu item.
+            </summary>
+        </member>
+        <member name="P:RestaurantReservation.Api.Contracts.Models.MenuItemForCreationDto.Price">
+            <summary>
+            Price of the menu item.
+            </summary>
+        </member>
+        <member name="T:RestaurantReservation.Api.Contracts.Models.MenuItemForUpdateDto">
+            <summary>
+            Data transfer object for updating an existing menu item.
+            </summary>
+        </member>
+        <member name="P:RestaurantReservation.Api.Contracts.Models.MenuItemForUpdateDto.RestaurantId">
+            <summary>
+            The ID of the restaurant to which the menu item belongs.
+            </summary>
+        </member>
+        <member name="P:RestaurantReservation.Api.Contracts.Models.MenuItemForUpdateDto.Name">
+            <summary>
+            Updated name of the menu item.
+            </summary>
+        </member>
+        <member name="P:RestaurantReservation.Api.Contracts.Models.MenuItemForUpdateDto.Description">
+            <summary>
+            Updated description of the menu item.
+            </summary>
+        </member>
+        <member name="P:RestaurantReservation.Api.Contracts.Models.MenuItemForUpdateDto.Price">
+            <summary>
+            Updated price of the menu item.
+            </summary>
+        </member>
+        <member name="T:RestaurantReservation.Api.Contracts.Models.OrderForCreationDto">
+            <summary>
+            Data transfer object for creating a new order.
+            </summary>
+        </member>
+        <member name="P:RestaurantReservation.Api.Contracts.Models.OrderForCreationDto.EmployeeId">
+            <summary>
+            The ID of the employee placing the order.
+            </summary>
+        </member>
+        <member name="P:RestaurantReservation.Api.Contracts.Models.OrderForCreationDto.OrderDate">
+            <summary>
+            The date of the order.
+            </summary>
+        </member>
+        <member name="T:RestaurantReservation.Api.Contracts.Models.OrderForUpdateDto">
+            <summary>
+            Data transfer object for updating an existing order.
+            </summary>
+        </member>
+        <member name="P:RestaurantReservation.Api.Contracts.Models.OrderForUpdateDto.ReservationId">
+            <summary>
+            The ID of the reservation associated with the order.
+            </summary>
+        </member>
+        <member name="P:RestaurantReservation.Api.Contracts.Models.OrderForUpdateDto.EmployeeId">
+            <summary>
+            The ID of the employee placing the order.
+            </summary>
+        </member>
+        <member name="P:RestaurantReservation.Api.Contracts.Models.OrderForUpdateDto.OrderDate">
+            <summary>
+            The date of the order.
+            </summary>
+        </member>
+        <member name="T:RestaurantReservation.Api.Contracts.Models.OrderItemForCreationOrUpdateDto">
+            <summary>
+            Data transfer object for creating or updating an order item.
+            </summary>
+        </member>
+        <member name="P:RestaurantReservation.Api.Contracts.Models.OrderItemForCreationOrUpdateDto.MenuItemId">
+            <summary>
+            The ID of the menu item associated with the order item.
+            </summary>
+        </member>
+        <member name="P:RestaurantReservation.Api.Contracts.Models.OrderItemForCreationOrUpdateDto.Quantity">
+            <summary>
+            The quantity of the menu item in the order.
+            </summary>
+        </member>
+        <member name="T:RestaurantReservation.Api.Contracts.Models.ReservationForCreationOrUpdateDto">
+            <summary>
+            Data transfer object for creating or updating a reservation.
+            </summary>
+        </member>
+        <member name="P:RestaurantReservation.Api.Contracts.Models.ReservationForCreationOrUpdateDto.CustomerId">
+            <summary>
+            The ID of the customer making the reservation.
+            </summary>
+        </member>
+        <member name="P:RestaurantReservation.Api.Contracts.Models.ReservationForCreationOrUpdateDto.RestaurantId">
+            <summary>
+            The ID of the restaurant where the reservation is made.
+            </summary>
+        </member>
+        <member name="P:RestaurantReservation.Api.Contracts.Models.ReservationForCreationOrUpdateDto.TableId">
+            <summary>
+            The ID of the table reserved for the party.
+            </summary>
+        </member>
+        <member name="P:RestaurantReservation.Api.Contracts.Models.ReservationForCreationOrUpdateDto.ReservationDate">
+            <summary>
+            The date and time of the reservation.
+            </summary>
+        </member>
+        <member name="P:RestaurantReservation.Api.Contracts.Models.ReservationForCreationOrUpdateDto.PartySize">
+            <summary>
+            The size of the party for the reservation.
+            </summary>
+        </member>
+        <member name="T:RestaurantReservation.Api.Contracts.Models.RestaurantIsolatedDto">
+            <summary>
+            Data transfer object representing basic information about a restaurant, Used For Create/Update.
+            </summary>
+        </member>
+        <member name="P:RestaurantReservation.Api.Contracts.Models.RestaurantIsolatedDto.Name">
+            <summary>
+            The name of the restaurant.
+            </summary>
+        </member>
+        <member name="P:RestaurantReservation.Api.Contracts.Models.RestaurantIsolatedDto.Address">
+            <summary>
+            The address of the restaurant.
+            </summary>
+        </member>
+        <member name="P:RestaurantReservation.Api.Contracts.Models.RestaurantIsolatedDto.PhoneNumber">
+            <summary>
+            The phone number of the restaurant.
+            </summary>
+        </member>
+        <member name="P:RestaurantReservation.Api.Contracts.Models.RestaurantIsolatedDto.OpenningHours">
+            <summary>
+            The opening hours of the restaurant.
+            </summary>
+        </member>
+        <member name="T:RestaurantReservation.Api.Contracts.Models.TableForCreationOrUpdateDto">
+            <summary>
+            Data transfer object representing the capacity information for creating or updating a table.
+            </summary>
+        </member>
+        <member name="P:RestaurantReservation.Api.Contracts.Models.TableForCreationOrUpdateDto.Capacity">
+            <summary>
+            The capacity of the table.
+            </summary>
+        </member>
+        <member name="T:RestaurantReservation.Api.Contracts.CustomerForCreationDto">
+            <summary>
+            Data transfer object for creating a customer.
+            </summary>
+        </member>
+        <member name="P:RestaurantReservation.Api.Contracts.CustomerForCreationDto.FirstName">
+            <summary>
+            The first name of the customer.
+            </summary>
+        </member>
+        <member name="P:RestaurantReservation.Api.Contracts.CustomerForCreationDto.LastName">
+            <summary>
+            The last name of the customer.
+            </summary>
+        </member>
+        <member name="P:RestaurantReservation.Api.Contracts.CustomerForCreationDto.Email">
+            <summary>
+            The email address of the customer.
+            </summary>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.CustomersController.GetCustomers">
+            <summary>
+            Gets all customers.
+            </summary>
+            <returns>A list of customer data transfer objects.</returns>
+            <response code="200">Returns the list of customers.</response>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.CustomersController.GetCustomer(System.Int32,System.Boolean)">
+            <summary>
+            Gets a specific customer by ID.
+            </summary>
+            <param name="customerId">The ID of the customer to retrieve.</param>
+            <param name="includeReservations">Flag to include reservations in the response.</param>
+            <returns>The customer data transfer object.</returns>
+            <response code="200">Returns the requested customer.</response>
+            <response code="404">If the customer with the specified ID is not found.</response>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.CustomersController.PostCustomer(RestaurantReservation.Api.Contracts.CustomerForCreationDto)">
+            <summary>
+            Creates a new customer.
+            </summary>
+            <param name="customer">The data for the new customer.</param>
+            <returns>The created customer data transfer object.</returns>
+            <response code="201">Returns the created customer.</response>
+            <response code="400">If data is invalid.</response>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.CustomersController.PutCustomer(System.Int32,RestaurantReservation.Api.Contracts.Models.CustomerForUpdateDto)">
+            <summary>
+            Updates an existing customer.
+            </summary>
+            <param name="customerId">The ID of the customer to update.</param>
+            <param name="customer">The updated data for the customer.</param>
+            <returns>No content if successful.</returns>
+            <response code="204">If the update is successful.</response>
+            <response code="404">If the customer with the specified ID is not found.</response>
+            <response code="400">if the updated data is invalid</response>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.CustomersController.PatchCustomer(System.Int32,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{RestaurantReservation.Api.Contracts.Models.CustomerForUpdateDto})">
+            <summary>
+            Partially updates an existing customer.
+            </summary>
+            <param name="customerId">The ID of the customer to update.</param>
+            <param name="patchDocument">The JSON patch document with partial update operations.</param>
+            <returns>No content if successful.</returns>
+            <response code="204">If the update is successful.</response>
+            <response code="400">If the patch document or updated data is invalid.</response>
+            <response code="404">If the customer with the specified ID is not found.</response>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.CustomersController.DeleteCustomer(System.Int32)">
+            <summary>
+            Deletes an existing customer.
+            </summary>
+            <param name="customerId">The ID of the customer to delete.</param>
+            <returns>No content if successful.</returns>
+            <response code="204">If the deletion is successful.</response>
+            <response code="404">If the customer with the specified ID is not found.</response>
+            <response code="400">If the customer cannot be deleted</response>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.EmployeesController.GetEmployees">
+            <summary>
+            Gets all employees.
+            </summary>
+            <returns>The list of employees.</returns>
+            <response code="200">Returns the list of employees.</response>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.EmployeesController.GetEmployee(System.Int32,System.Boolean)">
+            <summary>
+            Gets a specific employee by ID.
+            </summary>
+            <param name="employeeId">The ID of the employee to retrieve.</param>
+            <param name="includeOrders">Flag to include orders in the response.</param>
+            <returns>The employee data transfer object.</returns>
+            <response code="200">Returns the requested employee.</response>
+            <response code="404">If the employee with the specified ID is not found.</response>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.EmployeesController.GetManagers">
+            <summary>
+            Gets all managers.
+            </summary>
+            <returns>The list of managers.</returns>
+            <response code="200">Returns the list of managers.</response>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.EmployeesController.GetAverageOrderAmountForEmployee(System.Int32)">
+            <summary>
+            Gets the average order amount for a specific employee.
+            </summary>
+            <param name="employeeId">The ID of the employee.</param>
+            <returns>The average order amount.</returns>
+            <response code="200">Returns the average order amount.</response>
+            <response code="404">If the employee with the specified ID is not found.</response>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.EmployeesController.PostEmployee(RestaurantReservation.Api.Contracts.Models.EmployeeForCreationOrUpdate)">
+            <summary>
+            Creates a new employee.
+            </summary>
+            <param name="employeeForCreation">The data for creating a new employee.</param>
+            <returns>The created employee.</returns>
+            <response code="201">Returns the created employee.</response>
+            <response code="400">If data is invalid.</response>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.EmployeesController.PutEmployee(System.Int32,RestaurantReservation.Api.Contracts.Models.EmployeeForCreationOrUpdate)">
+            <summary>
+            Updates an existing employee.
+            </summary>
+            <param name="employeeId">The ID of the employee to update.</param>
+            <param name="employeeForUpdate">The data for updating the employee.</param>
+            <returns>No content if successful, not found if the employee does not exist.</returns>
+            <response code="204">If the update is successful.</response>
+            <response code="404">If the employee with the specified ID is not found.</response>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.EmployeesController.PatchEmployee(System.Int32,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{RestaurantReservation.Api.Contracts.Models.EmployeeForCreationOrUpdate})">
+            <summary>
+            Updates an existing employee partially.
+            </summary>
+            <param name="employeeId">The ID of the employee to update.</param>
+            <param name="patchDocument">The JSON patch document for updating the employee.</param>
+            <returns>No content if successful, bad request if the update fails or the employee does not exist.</returns>
+            <response code="204">If the update is successful.</response>
+            <response code="400">If the patch document or updated data is invalid.</response>
+            <response code="404">If the employee with the specified ID is not found.</response>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.EmployeesController.DeleteEmployee(System.Int32)">
+            <summary>
+            Deletes a specific employee by ID.
+            </summary>
+            <param name="employeeId">The ID of the employee to delete.</param>
+            <returns>No content if successful, not found if the employee does not exist.</returns>
+            <response code="204">If the deletion is successful.</response>
+            <response code="404">If the employee with the specified ID is not found.</response>
+            <response code="400">If the employee cannot be deleted</response>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.MenuItemsController.GetMenuItems(System.Int32)">
+            <summary>
+            Gets all menu items in a restaurant.
+            </summary>
+            <param name="restaurantId">The ID of the restaurant.</param>
+            <returns>The list of menu items.</returns>
+            <response code="200">Returns the list of menu items.</response>
+            <response code="404">If the restaurant with the specified ID is not found.</response>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.MenuItemsController.GetMenuItem(System.Int32,System.Int32)">
+            <summary>
+            Gets a specific menu item by ID.
+            </summary>
+            <param name="restaurantId">The ID of the restaurant.</param>
+            <param name="menuItemId">The ID of the menu item to retrieve.</param>
+            <returns>The menu item data transfer object.</returns>
+            <response code="200">Returns the requested menu item.</response>
+            <response code="404">If the restaurant or menu item with the specified IDs is not found.</response>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.MenuItemsController.PostMenuItem(System.Int32,RestaurantReservation.Api.Contracts.Models.MenuItemForCreationDto)">
+            <summary>
+            Creates a new menu item in a restaurant.
+            </summary>
+            <param name="restaurantId">The ID of the restaurant.</param>
+            <param name="menuItemForCreation">The data for creating a new menu item.</param>
+            <returns>The created menu item.</returns>
+            <response code="201">Returns the created menu item.</response>
+            <response code="400">If the restaurant with the specified ID is not found or the data is invalid.</response>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.MenuItemsController.PutMenuItem(System.Int32,System.Int32,RestaurantReservation.Api.Contracts.Models.MenuItemForUpdateDto)">
+            <summary>
+            Updates an existing menu item in a restaurant.
+            </summary>
+            <param name="restaurantId">The ID of the restaurant.</param>
+            <param name="menuItemId">The ID of the menu item to update.</param>
+            <param name="menuItemForUpdate">The data for updating the menu item.</param>
+            <returns>No content if successful, not found if the restaurant or menu item does not exist.</returns>
+            <response code="204">If the update is successful.</response>
+            <response code="400">if the data is invalid, or the put fails.</response>
+            <response code="404">If the menu item with the specified ID or If the restaurant with the specified ID or target restaurant with the specified ID is not found.</response>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.MenuItemsController.PatchMenuItem(System.Int32,System.Int32,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{RestaurantReservation.Api.Contracts.Models.MenuItemForUpdateDto})">
+            <summary>
+            Updates an existing menu item partially in a restaurant.
+            </summary>
+            <param name="restaurantId">The ID of the restaurant.</param>
+            <param name="menuItemId">The ID of the menu item to update.</param>
+            <param name="patchDocument">The JSON patch document for updating the menu item.</param>
+            <returns>No content if successful, bad request if the update fails or the restaurant or menu item does not exist.</returns>
+            <response code="204">If the update is successful.</response>
+            <response code="400">If the patch document or updated data is invalid.</response>
+            <response code="404">If the menu item with the specified ID or If the restaurant with the specified ID or target restaurant with the specified ID is not found.</response>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.MenuItemsController.DeleteMenuItem(System.Int32,System.Int32)">
+            <summary>
+            Deletes a specific menu item by ID.
+            </summary>
+            <param name="restaurantId">The ID of the restaurant.</param>
+            <param name="menuItemId">The ID of the menu item to delete.</param>
+            <returns>No content if successful, not found if the restaurant or menu item does not exist.</returns>
+            <response code="204">If the deletion is successful.</response>
+            <response code="404">If the restaurant or menu item with the specified IDs is not found.</response>
+            <response code="400">If the menu item cannot be deleted</response>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.OrderItemsController.GetOrderItemsForOrder(System.Int32,System.Int32)">
+            <summary>
+            Gets all order items for a specific order in a reservation.
+            </summary>
+            <param name="reservationId">The ID of the reservation.</param>
+            <param name="orderId">The ID of the order.</param>
+            <returns>The list of order items.</returns>
+            <response code="200">Returns the list of order items.</response>
+            <response code="404">If the reservation or order with the specified IDs is not found.</response>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.OrderItemsController.GetOrderItem(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Gets a specific order item by ID for a specific order in a reservation.
+            </summary>
+            <param name="reservationId">The ID of the reservation.</param>
+            <param name="orderId">The ID of the order.</param>
+            <param name="orderItemId">The ID of the order item to retrieve.</param>
+            <returns>The order item data transfer object.</returns>
+            <response code="200">Returns the requested order item.</response>
+            <response code="404">If the reservation, order, or order item with the specified IDs is not found.</response>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.OrderItemsController.PostOrderItem(System.Int32,System.Int32,RestaurantReservation.Api.Contracts.Models.OrderItemForCreationOrUpdateDto)">
+            <summary>
+            Creates a new order item for a specific order in a reservation.
+            </summary>
+            <param name="reservationId">The ID of the reservation.</param>
+            <param name="orderId">The ID of the order.</param>
+            <param name="orderItemForCreation">The data for creating a new order item.</param>
+            <returns>The created order item.</returns>
+            <response code="201">Returns the created order item.</response>
+            <response code="404">If the reservation or order with the specified IDs is not found or Reservation is not consistent with MenuItem.</response>
+            <response code="400">If data is invalid</response>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.OrderItemsController.PutOrderItem(System.Int32,System.Int32,System.Int32,RestaurantReservation.Api.Contracts.Models.OrderItemForCreationOrUpdateDto)">
+            <summary>
+            Updates an existing order item for a specific order in a reservation.
+            </summary>
+            <param name="reservationId">The ID of the reservation.</param>
+            <param name="orderId">The ID of the order.</param>
+            <param name="orderItemId">The ID of the order item to update.</param>
+            <param name="orderItemForUpdate">The data for updating the order item.</param>
+            <returns>No content if successful, not found if the reservation, order, or order item does not exist.</returns>
+            <response code="204">If the update is successful.</response>
+            <response code="400">If data is invalid</response>
+            <response code="404">If the reservation, order ,order item with the specified ID is not found or Reservation is not consistent with MenuItem.</response>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.OrderItemsController.PatchOrderItem(System.Int32,System.Int32,System.Int32,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{RestaurantReservation.Api.Contracts.Models.OrderItemForCreationOrUpdateDto})">
+            <summary>
+            Updates an existing order item partially for a specific order in a reservation.
+            </summary>
+            <param name="reservationId">The ID of the reservation.</param>
+            <param name="orderId">The ID of the order.</param>
+            <param name="orderItemId">The ID of the order item to update.</param>
+            <param name="patchDocument">The JSON patch document for updating the order item.</param>
+            <returns>No content if successful, bad request if the update fails or the reservation, order, or order item does not exist.</returns>
+            <response code="204">If the patch is successful.</response>
+            <response code="400">If data is invalid</response>
+            <response code="404">If the reservation, order ,order item with the specified ID is not found or Reservation is not consistent with MenuItem.</response>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.OrderItemsController.DeleteOrderItem(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Deletes a specific order item by ID for a specific order in a reservation.
+            </summary>
+            <param name="reservationId">The ID of the reservation.</param>
+            <param name="orderId">The ID of the order.</param>
+            <param name="orderItemId">The ID of the order item to delete.</param>
+            <returns>No content if successful, not found if the reservation, order, or order item does not exist.</returns>
+            <response code="204">If the deletion is successful.</response>
+            <response code="404">If the reservation, order, or order item with the specified IDs is not found.</response>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.OrdersController.GetOrdersForReservation(System.Int32)">
+            <summary>
+            Gets all orders for a specific reservation.
+            </summary>
+            <param name="reservationId">The ID of the reservation.</param>
+            <returns>The list of orders with associated menu items.</returns>
+            <response code="200">Returns the list of orders.</response>
+            <response code="404">If the reservation with the specified ID is not found.</response>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.OrdersController.GetOrder(System.Int32,System.Int32)">
+            <summary>
+            Gets a specific order by ID.
+            </summary>
+            <param name="reservationId">The ID of the reservation.</param>
+            <param name="orderId">The ID of the order to retrieve.</param>
+            <returns>The order data transfer object.</returns>
+            <response code="200">Returns the requested order.</response>
+            <response code="404">If the reservation or order with the specified IDs is not found.</response>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.OrdersController.PostOrder(System.Int32,RestaurantReservation.Api.Contracts.Models.OrderForCreationDto)">
+            <summary>
+            Creates a new order in a specific reservation.
+            </summary>
+            <param name="reservationId">The ID of the reservation.</param>
+            <param name="orderForCreation">The data for creating a new order.</param>
+            <returns>The created order.</returns>
+            <response code="201">Returns the created order.</response>
+            <response code="404">If the reservation or order with the specified IDs is not found or Employee is not consistent with Reservation..</response>
+            <response code="400">If data is invalid</response>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.OrdersController.PutOrder(System.Int32,System.Int32,RestaurantReservation.Api.Contracts.Models.OrderForUpdateDto)">
+            <summary>
+            Updates an existing order in a specific reservation.
+            </summary>
+            <param name="reservationId">The ID of the reservation.</param>
+            <param name="orderId">The ID of the order to update.</param>
+            <param name="orderForUpdate">The data for updating the order.</param>
+            <returns>No content if successful.</returns>
+            <response code="204">No content if successful.</response>
+            <response code="404">If the reservation or order with the specified IDs is not found or Employee is not consistent with Reservation..</response>
+            <response code="400">If data is invalid</response>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.OrdersController.PatchOrder(System.Int32,System.Int32,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{RestaurantReservation.Api.Contracts.Models.OrderForUpdateDto})">
+            <summary>
+            Patches an existing order in a specific reservation.
+            </summary>
+            <param name="reservationId">The ID of the reservation.</param>
+            <param name="orderId">The ID of the order to patch.</param>
+            <param name="patchDocument">The JSON patch document for updating the order.</param>
+            <returns>No content if successful.</returns>
+            <response code="204">No content if successful.</response>
+            <response code="404">If the reservation or order with the specified IDs is not found or Employee is not consistent with Reservation..</response>
+            <response code="400">If data is invalid</response>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.OrdersController.DeleteOrder(System.Int32,System.Int32)">
+            <summary>
+            Deletes an existing order in a specific reservation.
+            </summary>
+            <param name="reservationId">The ID of the reservation.</param>
+            <param name="orderId">The ID of the order to delete.</param>
+            <returns>No content if successful.</returns>
+            <response code="204">No content if successful.</response>
+            <response code="404">If the reservation or order with the specified IDs is not found.</response>
+            <response code="400">If the order cannot be deleted</response>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.ReservationsController.GetReservations">
+            <summary>
+            Gets all reservations.
+            </summary>
+            <returns>The list of reservations.</returns>
+            <response code="200">Returns the list of reservations.</response>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.ReservationsController.GetReservation(System.Int32,System.Boolean)">
+            <summary>
+            Gets a specific reservation by ID.
+            </summary>
+            <param name="reservationId">The ID of the reservation to retrieve.</param>
+            <param name="includeOrders">Flag to include associated orders.</param>
+            <returns>The reservation data transfer object.</returns>
+            <response code="200">Returns the requested reservation.</response>
+            <response code="404">If the reservation with the specified ID is not found.</response>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.ReservationsController.GetReservation(System.Int32)">
+            <summary>
+            Gets all reservations for a specific customer.
+            </summary>
+            <param name="customerId">The ID of the customer.</param>
+            <returns>The list of reservations for the customer.</returns>
+            <response code="200">Returns the list of reservations for the customer.</response>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.ReservationsController.GetOrderedMenuItemsForReservation(System.Int32)">
+            <summary>
+            Gets all ordered menu items for a specific reservation.
+            </summary>
+            <param name="reservationId">The ID of the reservation.</param>
+            <returns>The list of ordered menu items.</returns>
+            <response code="200">Returns the list of ordered menu items.</response>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.ReservationsController.PostReservation(RestaurantReservation.Api.Contracts.Models.ReservationForCreationOrUpdateDto)">
+            <summary>
+            Creates a new reservation.
+            </summary>
+            <param name="reservationForCreation">The data for creating a new reservation.</param>
+            <returns>The created reservation.</returns>
+            <response code="201">Returns the created reservation.</response>
+            <response code="400">If the data is invalid</response>
+            <response code="404"> if related entities (customer, restaurant, table) do not exist.</response>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.ReservationsController.PutReservation(System.Int32,RestaurantReservation.Api.Contracts.Models.ReservationForCreationOrUpdateDto)">
+            <summary>
+            Updates an existing reservation.
+            </summary>
+            <param name="reservationId">The ID of the reservation to update.</param>
+            <param name="reservationForUpdate">The data for updating the reservation.</param>
+            <returns>No content if successful.</returns>
+            <response code="201">Returns the created order.</response>
+            <response code="400">If the data is invalid</response>
+            <response code="404"> If reservation is not found or if related entities (customer, restaurant, table) do not exist.</response>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.ReservationsController.PatchReservation(System.Int32,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{RestaurantReservation.Api.Contracts.Models.ReservationForCreationOrUpdateDto})">
+            <summary>
+            Patches an existing reservation.
+            </summary>
+            <param name="reservationId">The ID of the reservation to patch.</param>
+            <param name="patchDocument">The JSON patch document for updating the reservation.</param>
+            <returns>No content if successful.</returns>
+            <response code="204">No content if successful.</response>
+            <response code="400">If the data is invalid</response>
+            <response code="404"> If reservation is not found or if related entities (customer, restaurant, table) do not exist.</response>    [HttpPatch("{reservationId}")]
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.ReservationsController.DeleteReservation(System.Int32)">
+            <summary>
+            Deletes an existing reservation.
+            </summary>
+            <param name="reservationId">The ID of the reservation to delete.</param>
+            <returns>No content if successful.</returns>
+            <response code="204">No content if successful.</response>
+            <response code="400">If the reservation cannot be deleted.</response>
+            <response code="404"> If reservation is not found.</response>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.RestaurantsController.GetRestaurants">
+            <summary>
+            Gets all restaurants.
+            </summary>
+            <returns>The list of restaurants.</returns>
+            <response code="200">Returns the list of restaurants.</response>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.RestaurantsController.GetRestaurant(System.Int32,System.Boolean,System.Boolean)">
+            <summary>
+            Gets a specific restaurant by ID.
+            </summary>
+            <param name="id">The ID of the restaurant to retrieve.</param>
+            <param name="includeEmployees">Flag to include associated employees.</param>
+            <param name="includeMenuItems">Flag to include associated menu items.</param>
+            <returns>The restaurant data transfer object.</returns>
+            <response code="200">Returns the requested restaurant.</response>
+            <response code="404">If the restaurant with the specified ID is not found.</response>
+            <response code="400">If the client set both parameter to true.</response>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.RestaurantsController.PostRestaurant(RestaurantReservation.Api.Contracts.Models.RestaurantIsolatedDto)">
+            <summary>
+            Creates a new restaurant.
+            </summary>
+            <param name="restaurant">The data for creating a new restaurant.</param>
+            <returns>The created restaurant.</returns>
+            <response code="201">Returns the created restaurant.</response>
+            <response code="400">If the data is invalid.</response>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.RestaurantsController.PutRestaurant(System.Int32,RestaurantReservation.Api.Contracts.Models.RestaurantIsolatedDto)">
+            <summary>
+            Updates an existing restaurant.
+            </summary>
+            <param name="id">The ID of the restaurant to update.</param>
+            <param name="restaurant">The data for updating the restaurant.</param>
+            <returns>No content if successful.</returns>
+            <response code="204">No content if successful.</response>
+            <response code="400">If the data is invalid.</response>
+            <response code="404">If the restaurant is not found.</response>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.RestaurantsController.PatchRestaurant(System.Int32,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{RestaurantReservation.Api.Contracts.Models.RestaurantIsolatedDto})">
+            <summary>
+            Patches an existing restaurant.
+            </summary>
+            <param name="id">The ID of the restaurant to patch.</param>
+            <param name="patchDocument">The JSON patch document for updating the restaurant.</param>
+            <returns>No content if successful.</returns>
+            <response code="204">No content if successful.</response>
+            <response code="400">If the data is invalid.</response>
+            <response code="404">If the restaurant is not found.</response>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.RestaurantsController.DeleteRestaurant(System.Int32)">
+            <summary>
+            Deletes an existing restaurant.
+            </summary>
+            <param name="id">The ID of the restaurant to delete.</param>
+            <returns>No content if successful.</returns>
+            <response code="204">No content if successful.</response>
+            <response code="400">If the restaurant cannot be deleted.</response>
+            <response code="404">If the restaurant is not found.</response>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.TablesController.GetTables(System.Int32)">
+            <summary>
+            Gets all tables in a restaurant.
+            </summary>
+            <param name="restaurantId">The ID of the restaurant.</param>
+            <returns>The list of tables in the restaurant.</returns>
+            <response code="200">Returns the list of tables in the restaurant.</response>
+            <response code="404">If the restaurant is not found or the table is not found in the restaurant.</response>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.TablesController.GetTable(System.Int32,System.Int32)">
+            <summary>
+            Gets a specific table in a restaurant by ID.
+            </summary>
+            <param name="restaurantId">The ID of the restaurant.</param>
+            <param name="tableId">The ID of the table.</param>
+            <returns>The table data transfer object.</returns>
+            <response code="200">Returns the requested table.</response>
+            <response code="404">If the restaurant is not found or the table is not found in the restaurant.</response>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.TablesController.PostTable(System.Int32,RestaurantReservation.Api.Contracts.Models.TableForCreationOrUpdateDto)">
+            <summary>
+            Creates a new table in a restaurant.
+            </summary>
+            <param name="restaurantId">The ID of the restaurant.</param>
+            <param name="tableForCreation">The data for creating a new table.</param>
+            <returns>The created table.</returns>
+            <response code="201">Returns the created table.</response>
+            <response code="400">If the data is invalid.</response>
+            <response code="404">If the restaurant is not found or the table is not found in the restaurant.</response>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.TablesController.PutTable(System.Int32,System.Int32,RestaurantReservation.Api.Contracts.Models.TableForCreationOrUpdateDto)">
+            <summary>
+            Updates an existing table in a restaurant.
+            </summary>
+            <param name="restaurantId">The ID of the restaurant.</param>
+            <param name="tableId">The ID of the table to update.</param>
+            <param name="tableForUpdate">The data for updating the table.</param>
+            <returns>No content if successful.</returns>
+            <response code="204">No content if successful.</response>
+            <response code="400">If the data is invalid.</response>
+            <response code="404">If the restaurant is not found or the table is not found in the restaurant.</response>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.TablesController.PatchTable(System.Int32,System.Int32,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{RestaurantReservation.Api.Contracts.Models.TableForCreationOrUpdateDto})">
+            <summary>
+            Patches an existing table in a restaurant.
+            </summary>
+            <param name="restaurantId">The ID of the restaurant.</param>
+            <param name="tableId">The ID of the table to patch.</param>
+            <param name="patchDocument">The JSON patch document for updating the table.</param>
+            <returns>No content if successful.</returns>
+            <response code="204">No content if successful.</response>
+            <response code="400">If the data is invalid.</response>
+            <response code="404">If the restaurant is not found or the table is not found in the restaurant.</response>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.TablesController.DeleteTable(System.Int32,System.Int32)">
+            <summary>
+            Deletes an existing table in a restaurant.
+            </summary>
+            <param name="restaurantId">The ID of the restaurant.</param>
+            <param name="tableId">The ID of the table to delete.</param>
+            <returns>No content if successful.</returns>
+            <response code="204">No content if successful.</response>
+            <response code="400">If the table cannot be deleted.</response>
+            <response code="404">If the restaurant is not found or the table is not found in the restaurant.</response>
+        </member>
+        <member name="T:RestaurantReservation.Api.Validators.MyCustomValidators">
+            <summary>
+            Set of Extension methods for IRuleBuilder
+            </summary>
+        </member>
+        <member name="M:RestaurantReservation.Api.Validators.MyCustomValidators.StrongPassword``1(FluentValidation.IRuleBuilder{``0,System.String})">
+            <summary>
+            validate the password is Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="ruleBuilder"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

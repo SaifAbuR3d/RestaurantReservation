@@ -1,8 +1,10 @@
-﻿using RestaurantReservation.Domain.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using RestaurantReservation.Db.Repositories.RepositoryInterface;
+using RestaurantReservation.Domain.Entities;
 
 namespace RestaurantReservation.Db.Repositories;
 
-public class RestaurantRepository
+public class RestaurantRepository : IRestaurantRepository
 {
     private readonly RestaurantReservationDbContext _context;
 
@@ -11,27 +13,73 @@ public class RestaurantRepository
         _context = context;
     }
 
+    public async Task<bool> RestaurantExistsAsync(int id)
+    {
+        return await _context.Restaurants.AnyAsync(c => c.RestaurantId == id);
+    }
+    public async Task<IEnumerable<Restaurant>> GetAllRestaurantsAsync()
+    {
+        return await _context.Restaurants.ToListAsync();
+    }
+
+    public async Task<Restaurant?> GetRestaurantAsync(int id, bool includeEmployees = false,
+        bool includeMenuItems = false)
+    {
+        var restaurant =  await _context.Restaurants.FirstOrDefaultAsync(c => c.RestaurantId == id);
+        if (restaurant == null)
+        {
+            return null;
+        }
+
+        if (includeEmployees)
+        {
+           await  _context.Entry(restaurant).Collection(r => r.Employees).LoadAsync(); 
+        }
+        if (includeMenuItems)
+        {
+            await _context.Entry(restaurant).Collection(r => r.MenuItems).LoadAsync();
+        }
+
+        return restaurant;
+    }
     public Restaurant CreateRestaurant(Restaurant restaurant)
     {
         _context.Restaurants.Add(restaurant);
-        _context.SaveChanges();
         return restaurant;
     }
 
-    public Restaurant UpdateRestaurant(Restaurant restaurant)
+    public void DeleteRestaurant(Restaurant restaurant)
     {
-        _context.Restaurants.Update(restaurant);
-        _context.SaveChanges();
-        return restaurant;
+        _context.Restaurants.Remove(restaurant);
     }
 
-    public void DeleteRestaurant(int restaurantId)
+    public async Task<int?> GetRestaurantIdByMenuItemIdAsync(int menuItemId)
     {
-        var restaurant = _context.Restaurants.Find(restaurantId);
-        if (restaurant != null)
-        {
-            _context.Restaurants.Remove(restaurant);
-            _context.SaveChanges();
-        }
+        return await _context.MenuItems
+            .Where(mi => mi.MenuItemId == menuItemId)
+            .Select(mi => mi.RestaurantId)
+            .FirstOrDefaultAsync();
+    }
+
+    public async Task<int?> GetRestaurantIdByReservationIdAsync(int reservationId)
+    {
+        return await _context.Reservations
+            .Where(r => r.ReservationId == reservationId)
+            .Select(r => r.RestaurantId)
+            .FirstOrDefaultAsync();
+    }
+
+    public async Task<int?> GetRestaurantIdByEmployeeIdAsync(int employeeId)
+    {
+        return await _context.Employees
+            .Where(e => e.EmployeeId == employeeId)
+            .Select(e => e.RestaurantId)
+            .FirstOrDefaultAsync();
+    }
+
+
+    public async Task<bool> SaveChangesAsync()
+    {
+        return (await _context.SaveChangesAsync() >= 0);
     }
 }
