@@ -1,10 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using RestaurantReservation.Db.Authentication;
 using RestaurantReservation.Domain.Entities;
 
 namespace RestaurantReservation.Db;
 
-public class RestaurantReservationDbContext : DbContext
+public class RestaurantReservationDbContext : IdentityDbContext<ApplicationUser>
 {
     private readonly string _connectionString;
     public DbSet<Customer> Customers { get; set; }
@@ -32,6 +34,7 @@ public class RestaurantReservationDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
         MapDatabaseFunctions(modelBuilder);
         MapDatabaseViews(modelBuilder);
         ConfigureNoCascadeDelete(modelBuilder);
