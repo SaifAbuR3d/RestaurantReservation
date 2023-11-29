@@ -764,5 +764,18 @@
             <response code="400">If the table cannot be deleted.</response>
             <response code="404">If the restaurant is not found or the table is not found in the restaurant.</response>
         </member>
+        <member name="T:RestaurantReservation.Api.Validators.MyCustomValidators">
+            <summary>
+            Set of Extension methods for IRuleBuilder
+            </summary>
+        </member>
+        <member name="M:RestaurantReservation.Api.Validators.MyCustomValidators.StrongPassword``1(FluentValidation.IRuleBuilder{``0,System.String})">
+            <summary>
+            validate the password is Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="ruleBuilder"></param>
+            <returns></returns>
+        </member>
     </members>
 </doc>
