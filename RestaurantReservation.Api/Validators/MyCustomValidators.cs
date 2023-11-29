@@ -3,6 +3,9 @@ using System.Text.RegularExpressions;
 
 namespace RestaurantReservation.Api.Validators;
 
+/// <summary>
+/// Set of Extension methods for IRuleBuilder
+/// </summary>
 public static class MyCustomValidators
 {
     public static IRuleBuilderOptions<T, string> ValidName<T>(this IRuleBuilder<T, string> ruleBuilder)
@@ -40,8 +43,22 @@ public static class MyCustomValidators
          .LessThanOrEqualTo(DateTime.UtcNow.AddMonths(1))
          .WithMessage("'{PropertyName}' should be at most 1 month from now");
     }
-
-
-
+    /// <summary>
+    /// validate the password is Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="ruleBuilder"></param>
+    /// <returns></returns>
+    public static IRuleBuilderOptions<T, string> StrongPassword<T>(this IRuleBuilder<T, string> ruleBuilder)
+    {
+        return ruleBuilder
+            .NotEmpty().NotNull()
+            .MinimumLength(8)
+            .WithMessage("Password Must be at least 8 characters")
+            .Matches("[A-Z]").WithMessage("Password must include UPPERCASE letters")
+            .Matches("[a-z]").WithMessage("Password must include lowercase letters")
+            .Matches("[0-9]").WithMessage("Password must include digits")
+            .Matches("[^a-zA-Z0-9]").WithMessage("Password must include special characters");
+    }
 }
 
