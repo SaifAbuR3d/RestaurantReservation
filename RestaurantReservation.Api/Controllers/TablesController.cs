@@ -1,5 +1,7 @@
 ﻿using Asp.Versioning;
+using AuthenticationService;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantReservation.Api.Contracts.Models;
@@ -8,6 +10,7 @@ using RestaurantReservation.Domain.Entities;
 
 namespace RestaurantReservation.Api.Controllers;
 
+[Authorize]
 [ApiVersion("1.0")]
 [Route("api/restaurants/{restaurantId}/tables")]
 [ApiController]
@@ -195,6 +198,7 @@ public class TablesController : ControllerBase
     /// <response code="204">No content if successful.</response>
     /// <response code="400">If the table cannot be deleted.</response>
     /// <response code="404">If the restaurant is not found or the table is not found in the restaurant.</response>
+    [Authorize(Roles = UserRoles.Admin)]
     [HttpDelete("{tableId}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

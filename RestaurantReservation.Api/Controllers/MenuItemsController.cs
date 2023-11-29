@@ -1,5 +1,7 @@
 ﻿using Asp.Versioning;
+using AuthenticationService;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantReservation.Api.Contracts.Models;
@@ -7,7 +9,7 @@ using RestaurantReservation.Db.Repositories.RepositoryInterface;
 using RestaurantReservation.Domain.Entities;
 
 namespace RestaurantReservation.Api.Controllers;
-
+[Authorize]
 [ApiVersion("1.0")]
 [Route("api/restaurants/{restaurantId}/menuitems")]
 [ApiController]
@@ -203,7 +205,7 @@ public class MenuItemsController : ControllerBase
     /// <response code="204">If the deletion is successful.</response>
     /// <response code="404">If the restaurant or menu item with the specified IDs is not found.</response>
     /// <response code="400">If the menu item cannot be deleted</response>
-
+    [Authorize(Roles = UserRoles.Admin)]
     [HttpDelete("{menuItemId}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

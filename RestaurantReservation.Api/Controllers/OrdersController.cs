@@ -1,5 +1,7 @@
 ﻿using Asp.Versioning;
+using AuthenticationService;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantReservation.Api.Contracts.Models;
@@ -8,6 +10,7 @@ using RestaurantReservation.Domain.Entities;
 
 namespace RestaurantReservation.Api.Controllers;
 
+[Authorize]
 [ApiVersion("1.0")]
 [Route("api/reservations/{reservationId}/orders")]
 [ApiController]
@@ -229,7 +232,7 @@ public class OrdersController : ControllerBase
     /// <response code="404">If the reservation or order with the specified IDs is not found.</response>
     /// <response code="400">If the order cannot be deleted</response>
 
-
+    [Authorize(Roles = UserRoles.Admin)]
     [HttpDelete("{orderId}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

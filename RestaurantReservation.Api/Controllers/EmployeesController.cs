@@ -1,5 +1,7 @@
 ﻿using Asp.Versioning;
+using AuthenticationService;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using RestaurantReservation.Api.Contracts.Models;
@@ -8,6 +10,7 @@ using RestaurantReservation.Domain.Entities;
 
 namespace RestaurantReservation.Api.Controllers;
 
+[Authorize]
 [ApiVersion("1.0")]
 [Route("api/employees")]
 [ApiController]
@@ -201,7 +204,7 @@ public class EmployeesController : ControllerBase
     /// <response code="204">If the deletion is successful.</response>
     /// <response code="404">If the employee with the specified ID is not found.</response>
     /// <response code="400">If the employee cannot be deleted</response>
-
+    [Authorize(Roles = UserRoles.Admin)]
     [HttpDelete("{employeeId}")]
     [ProducesResponseType(StatusCodes.Status204NoContent, Type = typeof(EmployeeDto))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

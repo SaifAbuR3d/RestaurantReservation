@@ -6,9 +6,12 @@ using RestaurantReservation.Api.Contracts.Models;
 using RestaurantReservation.Api.Contracts;
 using RestaurantReservation.Db.Repositories.RepositoryInterface;
 using RestaurantReservation.Domain.Entities;
+using Microsoft.AspNetCore.Authorization;
+using AuthenticationService;
 
 namespace RestaurantReservation.Api.Controllers;
 
+[Authorize]
 [ApiVersion("1.0")]
 [Route("api/customers")]
 [ApiController]
@@ -153,6 +156,7 @@ public class CustomersController : ControllerBase
     /// <response code="404">If the customer with the specified ID is not found.</response>
     /// <response code="400">If the customer cannot be deleted</response>
 
+    [Authorize(Roles = UserRoles.Admin)]
     [HttpDelete("{customerId}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
