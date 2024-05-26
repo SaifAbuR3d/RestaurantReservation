@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>RestaurantReservation.Api</name>
+    </assembly>
+    <members>
+        <member name="T:RestaurantReservation.Api.Controllers.CustomersController">
+            <summary>
+            API controller for managing customers.
+            </summary>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.CustomersController.#ctor(RestaurantReservation.Db.Repositories.RepositoryInterface.ICustomerRepository,AutoMapper.IMapper)">
+            <summary>
+            Constructor for the CustomersController.
+            </summary>
+            <param name="customerRepository">The repository for customer-related operations.</param>
+            <param name="mapper">Automapper instance for object mapping.</param>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.CustomersController.GetCustomers">
+            <summary>
+            Gets all customers.
+            </summary>
+            <returns>A list of customer data transfer objects.</returns>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.CustomersController.GetCustomer(System.Int32,System.Boolean)">
+            <summary>
+            Gets a specific customer by ID.
+            </summary>
+            <param name="customerId">The ID of the customer to retrieve.</param>
+            <param name="includeReservations">Flag to include reservations in the response.</param>
+            <returns>The customer data transfer object.</returns>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.CustomersController.PostCustomer(RestaurantReservation.Api.Contracts.CustomerForCreationDto)">
+            <summary>
+            Creates a new customer.
+            </summary>
+            <param name="customer">The customer data transfer object for creation.</param>
+            <returns>The newly created customer data transfer object.</returns>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.CustomersController.PutCustomer(System.Int32,RestaurantReservation.Api.Contracts.Models.CustomerForUpdateDto)">
+            <summary>
+            Updates an existing customer.
+            </summary>
+            <param name="customerId">The ID of the customer to update.</param>
+            <param name="customer">The customer data transfer object for update.</param>
+            <returns>No content response.</returns>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.CustomersController.PatchCustomer(System.Int32,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{RestaurantReservation.Api.Contracts.Models.CustomerForUpdateDto})">
+            <summary>
+            Patches an existing customer.
+            </summary>
+            <param name="customerId">The ID of the customer to patch.</param>
+            <param name="patchDocument">The JSON patch document for the customer update.</param>
+            <returns>No content response.</returns>
+        </member>
+        <member name="M:RestaurantReservation.Api.Controllers.CustomersController.DeleteCustomer(System.Int32)">
+            <summary>
+            Deletes an existing customer.
+            </summary>
+            <param name="customerId">The ID of the customer to delete.</param>
+            <returns>No content response.</returns>
+        </member>
+    </members>
+</doc>
